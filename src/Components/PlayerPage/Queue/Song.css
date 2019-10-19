@@ -1,0 +1,59 @@
+/*
+ *  DEFAULT SONG STYLING (ROW)
+ */
+
+#Queue tr {
+  width: 100%;
+  color: #FFFFFF;
+  border-bottom: 2px solid #292929;
+  background-color:#181818;
+  text-align: left;
+}
+
+#Queue td  {
+  font-weight: bold;
+  background-color: #181818;
+  padding: 10px;
+  letter-spacing: .1px;
+  font-size: 13px;
+}
+
+/*
+ *  SONG INTERACTION STYLING (ROW)
+ */
+
+#Queue tr:hover td {
+  background-color: #282828;
+}
+
+#Queue tr.currentSong{
+  color: #1DB954
+}
+
+/*
+ *  DROP ZONES FOR EACH SONG
+ */
+
+.dropzones {
+  position: absolute;
+  left: 0;
+  width: 100%;
+}
+
+.above {
+  position: relative;
+  height: 50%;
+  left: 0;
+  width: 100%;
+  background-color: red;
+  opacity: 0;
+}
+
+.below {
+  position: relative;
+  height: 50%;
+  left: 0;
+  width: 100%;
+  background-color: green;
+  opacity: 0;
+}

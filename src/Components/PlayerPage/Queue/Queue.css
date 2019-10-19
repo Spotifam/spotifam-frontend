@@ -1,0 +1,37 @@
+body {
+  background-color: #181818;
+}
+
+/*
+ *  QUEUE STYLING
+ */
+
+#queue-container {
+  width: 800px;
+  
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+
+  max-width:100%;
+  max-height:100%;
+  overflow:auto;
+}
+
+#Queue {
+  width: 100%;
+  padding: 15px;
+  border-collapse: collapse;
+  font-family: 'Montserrat', sans-serif;
+}
+
+#Queue th {
+  color: #B4B4B4;
+  background-color: #181818;
+  font-size: 11px;
+  letter-spacing: 2px;
+  padding: 10px;
+  text-align: left;
+}
