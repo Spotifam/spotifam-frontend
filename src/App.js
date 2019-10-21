@@ -21,6 +21,9 @@ import './App.css';
 import LandingPage from './Components/LandingPage/LandingPage.js';
 import PlayerPage from './Components/PlayerPage/PlayerPage.js';
 
+// Spotify
+import SpotifyWebApi from 'spotify-web-api-js';
+const spotifyAPI = new SpotifyWebApi();
 
 // =============================================================================
 // Constants
@@ -38,9 +41,31 @@ class App extends Component {
   constructor() {
     super();
 
-    this.state = {
-      currentPage: __pages[0]
+    // initialize Spotify API from access token handed through URL
+    const urlParams = this.getURLParameters();
+    const accessToken = urlParams.access_token;
+    if (accessToken) {
+      spotifyAPI.setAccessToken(accessToken);
     }
+
+
+    this.state = {
+      userLoggedIn: accessToken ? true : false
+    }
+  }
+
+
+  // looks at parameters in the webpage URL and decodes it into a dict
+  getURLParameters() {
+    var hashParams = {};
+    var e, r = /([^&;=]+)=?([^&;]*)/g,
+        q = window.location.hash.substring(1);
+    e = r.exec(q)
+    while (e) {
+       hashParams[e[1]] = decodeURIComponent(e[2]);
+       e = r.exec(q);
+    }
+    return hashParams;
   }
 
 
@@ -49,30 +74,25 @@ class App extends Component {
      onClick and onInput functions that modify App.state
   */
 
-  // brings a user to a different page
-  onClick_selectNewPage = (page) => {
-    if ((__pages.indexOf(page) >= 0) && (this.state.currentPage !== page)) {
-      this.setState({currentPage: page});
-    }
+  onClick_loginToSpotify = () => {
+    window.open('http://localhost:8888', "_self");
   }
 
   // render --------------------------------------------------------------------
 
   // returns the currently selected page (landing, webplayer, etc)
   renderPage = () => {
-
-    // if the selected page does not exist, do not render it
-    if (__pages.indexOf(this.state.currentPage) < 0) {
-      return;
-    } else if (this.state.currentPage === "landing") {
+   if (this.state.userLoggedIn) {
+     return (
+       <PlayerPage
+         spotifyAPI={spotifyAPI}
+       />
+     );
+    } else {
       return (
         <LandingPage
-          onClick_moveToWebPlayer={() => this.onClick_selectNewPage("webplayer")}
+          onClick_loginToSpotify={this.onClick_loginToSpotify}
         />
-      );
-    } else if (this.state.currentPage === "webplayer") {
-      return (
-        <PlayerPage/>
       );
     }
   }

@@ -7,7 +7,8 @@
     - It also allows them to login with their Spotify credentials
 
   Props:
-    - onClick_moveToWebPlayer(): takes user to the webplayer page
+    - onClick_loginToSpotify(): takes user to a different webpage (localhost:8888) to login to Spotify via OAuth
+                                This passes back an access token via the webpage URL that we can use
 
   Child Components
     - SpotifyLogin (needs to be added)
@@ -30,7 +31,7 @@ class LandingPage extends Component {
     return (
       <div id="LandingPage">
         <h1>Landing Page!</h1>
-        <button onClick={this.props.onClick_moveToWebPlayer}>Go to player</button>
+        <button onClick={this.props.onClick_loginToSpotify}>Login to Spotify</button>
       </div>
     );
   }
