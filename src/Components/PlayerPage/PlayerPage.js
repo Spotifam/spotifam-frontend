@@ -66,6 +66,7 @@ class PlayerPage extends Component {
     this.state = {
       current_song: 1,
       songs: __songs,
+      debugModeActive: true
     };
   }
 
@@ -159,19 +160,45 @@ class PlayerPage extends Component {
 
   // render --------------------------------------------------------------------
 
-  // Renders <PlayerPage/>
-  render() {
-    return (
-      <div id="PlayerPage">
-        <h1>Webplayer</h1>
-        <div id = "queue-container">
-          <Queue
-            current_song={this.state.current_song}
-            songs={this.state.songs}
-          />
-        </div>
 
+  // renders the <Queue/>
+  renderQueue = () => {
+    return (
+      <div id="queue_container">
+        <p>queue goes here</p>
+        <Queue
+          current_song={this.state.current_song}
+          songs={this.state.songs}
+        />
+      </div>
+    );
+  }
+
+  // renders component for displaying album art / name
+  renderSongDetails = () => {
+    return (
+      <div id="song_details_container">
+        <p>song details will go here</p>
+      </div>
+    );
+  }
+
+  // renders component that user interacts with to play/pause/skip
+  renderSongControls = () => {
+    return (
+      <div id="song_controls_container">
+        <p>spotify controller will go here</p>
+      </div>
+    );
+  }
+
+  // renders buttons that show developers helpful buttons w/ API functionality
+  renderAPIHelp = () => {
+
+    if (this.state.debugModeActive) {
+      return (
         <div style={{'display': 'flex', 'flex-direction': 'column', 'width': '100%', 'justifyContent': 'center', 'alignItems': 'center'}}>
+          <button onClick={() => this.setState({'debugModeActive': false})}>Hide API help buttons</button>
           <button onClick={this.api_getNowPlaying}>Get data about what is playing right now</button>
           <button onClick={() => this.api_playSong(["spotify:track:0rRboI6IRuGx56Dq3UdYY4", "spotify:track:6HUFOiTIGCizkemQxhQTao", "spotify:track:6K4t31amVTZDgR3sKmwUJJ"])}>Play a specific song</button>
           <button onClick={() => this.api_pauseSong()}>Pause song</button>
@@ -180,6 +207,32 @@ class PlayerPage extends Component {
           <button onClick={() => this.api_goToPrevSong()}>Prev song</button>
           <button onClick={() => this.api_searchForSong("The less i know the ")}>Example Search: The Less I K</button>
         </div>
+      );
+    } else {
+      return (
+        <div>
+          <button onClick={() => this.setState({'debugModeActive': true})}>Show API help buttons</button>
+        </div>
+      );
+    }
+  }
+
+  // Renders <PlayerPage/>
+  render() {
+    return (
+      <div id="PlayerPage">
+        <div id="title_row">
+          <h1 id="spotifam_title">Spotifam</h1>
+          <h3 id="room_code_text">spotifam.casa/room/CODE</h3>
+        </div>
+
+        <div id="content_container">
+          {this.renderSongDetails()}
+          {this.renderSongControls()}
+          {this.renderQueue()}
+          {this.renderAPIHelp()}
+        </div>
+
       </div>
     );
   }
