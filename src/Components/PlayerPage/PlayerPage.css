@@ -1,0 +1,55 @@
+#PlayerPage {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+
+#PlayerPage #title_row {
+  width: calc(100% - 60px);
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+#PlayerPage #spotifam_title {
+  margin: 0px;
+  font-size: 2.7em;
+}
+
+#PlayerPage #room_code_text {
+  font-size: 1.5em;
+  margin: 0px;
+}
+
+
+#PlayerPage #content_container {
+  display: flex;
+  width: 100%;
+  flex-grow: 1;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+#PlayerPage #song_details_container {
+  border: 1px solid white;
+  margin-top: 50px;
+  width: 60%;
+  height: 400px;
+}
+
+#PlayerPage #song_controls_container {
+  border: 1px solid white;
+  height: 100px;
+  width: 60%;
+}
+
+#PlayerPage #queue_container {
+  border: 1px solid white;
+  width: 60%;
+  height: 400px;
+}
