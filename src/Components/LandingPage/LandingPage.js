@@ -18,6 +18,7 @@
 import React, { Component } from 'react';
 import './LandingPage.css';
 
+
 class LandingPage extends Component {
 
   constructor() {
@@ -30,8 +31,18 @@ class LandingPage extends Component {
   render() {
     return (
       <div id="LandingPage">
-        <h1>Landing Page!</h1>
-        <button onClick={this.props.onClick_loginToSpotify}>Login to Spotify</button>
+
+          <div class="topnav">
+            <img src="./Spotifam.png"/>
+            <p>SpotiFam</p>
+          </div>
+          <div class="contents">
+            <h1>Control your music as a group.</h1>
+            <p>Create a song queue that everyone can use.</p>
+            <button onClick={this.props.onClick_loginToSpotify}>LOGIN TO SPOTIFY</button>    
+          </div>
+
+      
       </div>
     );
   }

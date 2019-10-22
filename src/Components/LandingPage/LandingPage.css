@@ -1,4 +1,72 @@
 #LandingPage {
   width: 100%;
   height: 100%;
+  background-image: url(/background.png);
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.topnav{
+  background-color: rgba(0, 0, 0, 0.3);
+  overflow: hidden;
+  vertical-align: middle;
+}
+
+.topnav img{
+	height: 80px;
+	width: 80px;
+	margin-bottom: 10px;
+	vertical-align: middle;
+}
+
+.topnav p{
+	display: inline-block;
+	font-family: sans-serif;
+	font-weight: 900;
+	font-size:200%
+}
+
+.contents{
+	height: 800px;
+	font-family: Circular, Helvetica, Arial, sans-serif;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	text-align: center;
+}
+
+.contents h1{
+	font-size: 80px;
+	font-weight: 900;
+	letter-spacing: -3.2px;
+	margin: 0;
+}
+
+.contents p{
+	font-size: 30px;
+	font-weight: 300;
+	letter-spacing: -1px;
+}
+
+.contents button{
+	background-color: rgb(30, 215, 96);
+	align-self: center;
+	height:50px;
+    width:200px;
+    border-top-left-radius: 500px;
+	border-top-right-radius: 500px;
+	border-bottom-left-radius: 500px;
+	border-bottom-right-radius: 500px;
+	border-style: solid;
+	border-color: rgb(30, 215, 96);
+	font-size: 14px;
+	font-weight: 700;
+	color: white;
+	letter-spacing: 1px;
+}
+
+.contents button:hover {
+  background-color: rgb(0, 150, 96); /* Green */
+  border-color: rgb(0, 150, 96);
+  cursor: pointer;
 }
