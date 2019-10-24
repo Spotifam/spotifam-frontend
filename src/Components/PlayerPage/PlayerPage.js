@@ -189,6 +189,15 @@ class PlayerPage extends Component {
     // Edit the songs array and update state.
     songs.splice(drop_index+offset, 0, song);
 
+    // Handle current song movement
+    if (drag_index === this.state.current_song) { // if the current song is moved
+      this.setState({current_song: drop_index + offset});
+    } else if (drag_index < this.state.current_song && drop_index >= this.state.current_song) {
+      this.setState({current_song: this.state.current_song - 1});
+    } else if (drag_index > this.state.current_song && drop_index <= this.state.current_song) {
+      this.setState({current_song: this.state.current_song + 1});
+    }
+
     // Update songs array
     this.setState({songs: songs});
   }
