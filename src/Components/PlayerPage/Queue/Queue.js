@@ -5,8 +5,12 @@
     - <Queue /> is an html table element that displays a list of songs.
 
   Props:
+    + VARIABLES
     - current_song [int]
     - songs [arr<song>]
+    
+    + FUNCTIONS
+    - onQueueDrop passes straight to song components
 
   Children:
     - Song
@@ -16,6 +20,8 @@
 import React, { Component } from 'react';
 import Song from './Song.js';
 import { v4 } from 'uuid'; // Returns a uuid [str]
+import { DndProvider } from 'react-dnd'
+import HTML5Backend from 'react-dnd-html5-backend'
 import './Queue.css';
 
 class Queue extends Component {
@@ -31,8 +37,10 @@ class Queue extends Component {
       <Song
         key={id} // Used in React.
         id={id}  // Used as html id.
+        index={index}
         song={song_object}
         current={current}
+        onQueueDrop={this.props.onQueueDrop}
       />
     );
   }
@@ -46,21 +54,23 @@ class Queue extends Component {
 
   render () {
     return (
-      <table id="Queue">
-        <tbody>
-          <tr>
-            <th>TITLE</th>
-            <th>ARTIST</th>
-            <th>ALBUM</th>
-            <th>DURATION</th>
-          </tr>
+      <DndProvider backend={HTML5Backend}>
+        <table id="Queue">
+          <tbody>
+            <tr>
+              <th>TITLE</th>
+              <th>ARTIST</th>
+              <th>ALBUM</th>
+              <th>DURATION</th>
+            </tr>
 
-          {/* Populate the table with songs stored in App.js*/}
-          {this.props.songs.map((song, index) => {
-            return this.renderSong(song, index);
-          })}
-        </tbody>
-      </table>
+            {/* Populate the table with songs stored in App.js*/}
+            {this.props.songs.map((song, index) => {
+              return this.renderSong(song, index);
+            })}
+          </tbody>
+        </table>
+      </DndProvider>
     );
   }
   

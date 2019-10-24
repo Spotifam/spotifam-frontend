@@ -68,6 +68,10 @@ class PlayerPage extends Component {
       songs: __songs,
       debugModeActive: true
     };
+    
+    // We want the <Song/> component to be able to edit PlayerPage.songs so
+    // we bind the state of this function to PlayerPage.
+    this.onQueueDrop = this.onQueueDrop.bind(this);
   }
 
   // Spotify API Interactions --------------------------------------------------
@@ -158,6 +162,37 @@ class PlayerPage extends Component {
     });
   }
 
+  // queue ---------------------------------------------------------------------
+  
+  onQueueDrop(song, drag_index, drop_index, pos) {
+    // Check if dragged on self
+    if (drag_index === drop_index) {
+      return;
+    }
+    
+    // Delete dragged song
+    var songs = this.state.songs.slice();
+
+    // Delete dragged song from Queue
+    songs.splice(drag_index, 1);
+
+    // Check if song is being dropped above or below and acount for
+    // shift from deleting dragged song. Since we are directly modifying a
+    // value as we are inserting indicies get wonky.
+    var offset = 0;
+    if (pos === "above"){
+      offset = (drag_index > drop_index) ? 0 : -1;
+    } else if (pos === "below"){
+      offset = (drop_index > drag_index) ? 0 :  1;
+    }
+
+    // Edit the songs array and update state.
+    songs.splice(drop_index+offset, 0, song);
+
+    // Update songs array
+    this.setState({songs: songs});
+  }
+
   // render --------------------------------------------------------------------
 
 
@@ -169,6 +204,7 @@ class PlayerPage extends Component {
         <Queue
           current_song={this.state.current_song}
           songs={this.state.songs}
+          onQueueDrop={this.onQueueDrop}
         />
       </div>
     );
