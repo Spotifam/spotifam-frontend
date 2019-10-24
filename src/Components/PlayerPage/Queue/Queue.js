@@ -20,8 +20,8 @@
 import React, { Component } from 'react';
 import Song from './Song.js';
 import { v4 } from 'uuid'; // Returns a uuid [str]
-import { DndProvider } from 'react-dnd'
-import HTML5Backend from 'react-dnd-html5-backend'
+import { DndProvider, DragDropContext } from 'react-dnd'
+import TouchBackend from 'react-dnd-touch-backend'
 import './Queue.css';
 
 class Queue extends Component {
@@ -54,7 +54,7 @@ class Queue extends Component {
 
   render () {
     return (
-      <DndProvider backend={HTML5Backend}>
+      <DndProvider backend={TouchBackend} options={{enableMouseEvents: true, delayTouchStart: 150}}>
         <table id="Queue">
           <tbody>
             <tr>
