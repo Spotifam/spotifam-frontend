@@ -10,6 +10,7 @@
   Child Components
     - LandingPage: initial page user sees when they come to the website
     - PlayerPage: page user sees when they are listening to music
+    - SelectRoomPage: page for mobile users to select a room
 */
 
 
@@ -28,6 +29,7 @@ import {
 // components
 import LandingPage from './Components/LandingPage/LandingPage.js';
 import PlayerPage from './Components/PlayerPage/PlayerPage.js';
+import SelectRoomPage from './Components/SelectRoomPage/SelectRoomPage.js';
 
 // Spotify
 import SpotifyWebApi from 'spotify-web-api-js';
@@ -58,8 +60,34 @@ class App extends Component {
 
 
     this.state = {
-      userLoggedIn: accessToken ? true : false
+      userLoggedIn: accessToken ? true : false,
+      windowWidth: 0,
+      windowHeight: 0
     }
+
+    this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
+  }
+
+
+  // when <App/> first loads, determine whether we are in mobile or desktop mode
+  componentDidMount() {
+    this.updateWindowDimensions();
+    window.addEventListener('resize', this.updateWindowDimensions);
+  }
+
+  // clear dangling memory pointers
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.updateWindowDimensions);
+  }
+
+  // updates Window size so <App/> knows whether it should render in mobile or landscape
+  updateWindowDimensions() {
+    this.setState({windowWidth: window.innerWidth, windowHeight: window.innerHeight});
+  }
+
+  // returns true if we should render in mobile, false otherwise
+  bool_renderMobile() {
+    return (this.state.windowHeight > this.state.windowWidth);
   }
 
 
@@ -88,21 +116,36 @@ class App extends Component {
 
   // render --------------------------------------------------------------------
 
-  // returns the currently selected page (landing, webplayer, etc)
-  renderPlayerPage = () => {
-   if (this.state.userLoggedIn) {
-     return (
-       <PlayerPage
-         spotifyAPI={spotifyAPI}
-       />
-     );
-    } else {
-      return (
-        <LandingPage
-          onClick_loginToSpotify={this.onClick_loginToSpotify}
-        />
-      );
-    }
+  // renders the currently selected page
+  //  - DESKTOP   ->   [landing, webplayer]
+  //  - MOBILE    ->   [findRoom]
+  renderEmptyRoutePage = () => {
+     if (this.bool_renderMobile()) {
+
+       // mobile user will need to select a room
+       return (
+         <SelectRoomPage/>
+       );
+
+     } else {
+       if (this.state.userLoggedIn) {
+
+         // desktop user is logged in, so we want to render the webplayer
+         return (
+           <PlayerPage
+             spotifyAPI={spotifyAPI}
+           />
+         );
+        } else {
+
+          // desktop user isn't logged in so render the landing page
+          return (
+            <LandingPage
+              onClick_loginToSpotify={this.onClick_loginToSpotify}
+            />
+          );
+        }
+     }
   }
 
   // renders the room page for users who want to access the queue via a room
@@ -125,7 +168,7 @@ class App extends Component {
             </Route>
 
             <Route path="/">
-              {this.renderPlayerPage()}
+              {this.renderEmptyRoutePage()}
             </Route>
           </Switch>
         </Router>
