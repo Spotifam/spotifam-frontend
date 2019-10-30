@@ -17,6 +17,14 @@ import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
 
+// routing
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link
+} from "react-router-dom";
+
 // components
 import LandingPage from './Components/LandingPage/LandingPage.js';
 import PlayerPage from './Components/PlayerPage/PlayerPage.js';
@@ -81,7 +89,7 @@ class App extends Component {
   // render --------------------------------------------------------------------
 
   // returns the currently selected page (landing, webplayer, etc)
-  renderPage = () => {
+  renderPlayerPage = () => {
    if (this.state.userLoggedIn) {
      return (
        <PlayerPage
@@ -97,11 +105,30 @@ class App extends Component {
     }
   }
 
+  // renders the room page for users who want to access the queue via a room
+  renderRoomPage = () => {
+    return (
+      <div>
+        <h1>mobile!</h1>
+      </div>
+    );
+  }
+
   // renders <App/>
   render() {
     return (
       <div className="App">
-        {this.renderPage()}
+        <Router>
+          <Switch>
+            <Route path="/room">
+              {this.renderRoomPage()}
+            </Route>
+
+            <Route path="/">
+              {this.renderPlayerPage()}
+            </Route>
+          </Switch>
+        </Router>
       </div>
     );
   }
