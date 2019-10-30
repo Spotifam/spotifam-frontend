@@ -11,7 +11,7 @@
   Child Components:
     - Queue
     - Visualizer (needs to be added)
-    - DisplaySong (needs to be added)
+    - SongDetails
 */
 
 import React, { Component } from 'react';
@@ -66,7 +66,12 @@ class PlayerPage extends Component {
     this.state = {
       current_song: 1,
       songs: __songs,
-      debugModeActive: true
+      debugModeActive: true,
+      nowPlaying: {
+        name: '',
+        artist: '',
+        albumArt: ''
+      }
     };
     
     // We want the <Song/> component to be able to edit PlayerPage.songs so
@@ -103,6 +108,22 @@ class PlayerPage extends Component {
       alert(JSON.stringify(info));
       console.log(response);
 
+    }).catch(function(err) {
+      console.log(err);
+    });
+  }
+
+  api_getSongDetails = () => {
+    this.props.spotifyAPI.getMyCurrentPlaybackState()
+    .then((response) => {
+      this.setState({
+        nowPlaying: { 
+            name: response.item.name,
+            artist: response.item.artists[0].name,
+            albumArt: response.item.album.images[0].url
+          }
+      });
+      console.log(response);
     }).catch(function(err) {
       console.log(err);
     });
@@ -220,12 +241,41 @@ class PlayerPage extends Component {
   }
 
   // renders component for displaying album art / name
+  //
+  // will need to call the api every x units to have it automatically 
+  // change song display on song change
   renderSongDetails = () => {
-    return (
-      <div id="song_details_container">
-        <p>song details will go here</p>
-      </div>
-    );
+    if (this.state.nowPlaying.name != ''){
+      return (
+        <div id="song_details_container" style={{'display': 'flex', 'flex-direction': 'column', 'justifyContent': 'center', 'alignItems': 'center'}}>
+          <div>
+            <img src={this.state.nowPlaying.albumArt} style={{ height: 300 }}/>
+          </div>
+          <div id="song_details_text" style={{'paddingTop': "1em"}}>
+            <div id="song_details_song">
+              { this.state.nowPlaying.name }
+            </div>
+            <div id="song_details_artist">
+              {this.state.nowPlaying.artist}
+            </div>
+          </div>
+          <div id="song_details_button" style={{'paddingTop': "1em"}}>
+            <button onClick={() => this.api_getSongDetails()}>Get current song info</button>
+          </div>
+        </div>
+      );
+    } else{
+      return (
+        <div id="song_details_container" style={{'display': 'flex', 'flex-direction': 'column', 'justifyContent': 'center', 'alignItems': 'center'}}>
+          <div id="song_details_song">
+            No song is currently playing.
+          </div>
+          <div id="song_details_button" style={{'paddingTop': "1em"}}>
+            <button onClick={() => this.api_getSongDetails()}>Get current song info</button>
+          </div>
+        </div>
+      );
+    }
   }
 
   // renders component that user interacts with to play/pause/skip
