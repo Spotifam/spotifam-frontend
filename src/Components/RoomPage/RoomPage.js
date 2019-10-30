@@ -20,7 +20,6 @@ class RoomPage extends Component {
 
   constructor() {
     super();
-
   }
 
   // render --------------------------------------------------------------------
