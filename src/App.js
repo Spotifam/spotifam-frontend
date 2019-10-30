@@ -8,9 +8,10 @@
     - <App/> does not have any props
 
   Child Components
-    - LandingPage: initial page user sees when they come to the website
-    - PlayerPage: page user sees when they are listening to music
-    - SelectRoomPage: page for mobile users to select a room
+    - LandingPage:        initial page user sees when they come to the website
+    - PlayerPage:         page user sees when they are listening to music
+    - SelectRoomPage:     page for mobile users to select a room
+    - RoomPage:           page where users can add songs to the room's queue
 */
 
 
@@ -30,6 +31,8 @@ import {
 import LandingPage from './Components/LandingPage/LandingPage.js';
 import PlayerPage from './Components/PlayerPage/PlayerPage.js';
 import SelectRoomPage from './Components/SelectRoomPage/SelectRoomPage.js';
+import RoomPage from './Components/RoomPage/RoomPage.js';
+
 
 // Spotify
 import SpotifyWebApi from 'spotify-web-api-js';
@@ -151,9 +154,7 @@ class App extends Component {
   // renders the room page for users who want to access the queue via a room
   renderRoomPage = () => {
     return (
-      <div>
-        <h1>mobile!</h1>
-      </div>
+      <RoomPage/>
     );
   }
 

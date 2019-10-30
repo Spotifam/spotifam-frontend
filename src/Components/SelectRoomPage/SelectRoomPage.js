@@ -16,6 +16,14 @@
 import React, { Component } from 'react';
 import './SelectRoomPage.css';
 
+// routing
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link
+} from "react-router-dom";
+
 
 const __roomCodeLength = 4;
 
@@ -47,11 +55,14 @@ class SelectRoomPage extends Component {
   // if the room code is not formatted correctly, this button is not rendered with an onclick
   renderSearchButton = () => {
     if (this.state.roomCodeText.length === __roomCodeLength) {
+      let newURL = "/room/" + this.state.roomCodeText;
       return (
-        <button
-          id="find_room_button_active"
-          >Go
-        </button>
+        <Link to={newURL}>
+          <button
+            id="find_room_button_active"
+            >Go
+          </button>
+        </Link>
       );
     } else {
       return (
