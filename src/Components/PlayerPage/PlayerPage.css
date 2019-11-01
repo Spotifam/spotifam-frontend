@@ -69,7 +69,7 @@
   width:65px;
   height: 65px;
   border:0;
-  background-color: #1DB935;
+  background-color: #1DB945;
   border-radius: 50%;
   outline: none;
   cursor: pointer;
@@ -77,12 +77,6 @@
   top: 30%;
   left: 50%;
   transform: translate(-50%, -50%);
-}
-#play{
-  left:47%;
-}
-#pause{
-  left: 53%;
 }
 #next{
   width: 40px;

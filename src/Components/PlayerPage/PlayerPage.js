@@ -322,16 +322,30 @@ class PlayerPage extends Component {
 
   // renders component that user interacts with to play/pause/skip
   renderSongControls = () => {
-    return (
+    if(this.state.songPlaying){
+      return (
+        <div id="song_controls_container" style={{'display': 'flex', 'justifyContent': 'center', 'alignItems': 'center'}}>
+          <div id="buttons">
+              <button id="prev" onClick={() => this.api_goToPrevSong()}><img src="back.png" height= "55" width="55"/></button>
+              <button id="pause" onClick={() => this.api_pauseSong()}><img src="pause.png" height="55" width="55"/></button>
+              <button id="next" onClick={() => this.api_goToNextSong()}><img src="back.png" height="55" width="55"/></button>
+          </div>
+        </div>
+       );
+    }
+    else
+    {
+      return (
       <div id="song_controls_container" style={{'display': 'flex', 'justifyContent': 'center', 'alignItems': 'center'}}>
         <div id="buttons">
             <button id="prev" onClick={() => this.api_goToPrevSong()}><img src="back.png" height= "55" width="55"/></button>
-            <button id="pause" onClick={() => this.api_pauseSong()}><img src="pause.png" height="55" width="55"/></button>
             <button id="play" onClick={() => this.api_playSong()}><img src="play.png" height="55" width="55"/></button>
             <button id="next" onClick={() => this.api_goToNextSong()}><img src="back.png" height="55" width="55"/></button>
         </div>
       </div>
     );
+    }
+   
   }
 
   // renders buttons that show developers helpful buttons w/ API functionality
