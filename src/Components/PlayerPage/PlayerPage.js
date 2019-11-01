@@ -76,6 +76,7 @@ class PlayerPage extends Component {
         artist: '',
         albumArt: ''
       },
+      songPlaying: false,
       secondsPassed: 0
     };
 
@@ -155,12 +156,17 @@ class PlayerPage extends Component {
   api_getSongDetails = () => {
     this.props.spotifyAPI.getMyCurrentPlaybackState()
     .then((response) => {
+
+      // TODO: remove this console.log
+      console.log(response.is_playing);
+
       this.setState({
         nowPlaying: {
-            name: response.item.name,
-            artist: response.item.artists[0].name,
-            albumArt: response.item.album.images[0].url
-          }
+          name: response.item.name,
+          artist: response.item.artists[0].name,
+          albumArt: response.item.album.images[0].url
+        },
+        songPlaying: response.is_playing
       });
       console.log(response);
     }).catch(function(err) {
