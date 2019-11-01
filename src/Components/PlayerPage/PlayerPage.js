@@ -21,11 +21,6 @@ import Queue from './Queue/Queue.js';
 
 // constants -------------------------------------------------------------------
 
-
-const __refreshLimit = 3; // for how often to refresh spotify info (in seconds)
-
-
-// TODO: remove this and make it actually represent the queue
 const __songs =  [
   // Example song list.
   {
@@ -76,46 +71,13 @@ class PlayerPage extends Component {
         name: '',
         artist: '',
         albumArt: ''
-      },
-      secondsPassed: 0
+      }
     };
-
+    
     // We want the <Song/> component to be able to edit PlayerPage.songs so
     // we bind the state of this function to PlayerPage.
     this.onQueueDrop = this.onQueueDrop.bind(this);
   }
-
-  // Timer ---------------------------------------------------------------------
-  /*
-    functions that involve a timer, including updating state info about the current playing song
-  */
-
-
-  // when component mounts, set a timer on an infinite loop
-  // -> this timer gets used to make sure we are updating our info from spotify
-  componentDidMount() {
-    this.timerID = setInterval(() => this.tick(), 1000);
-  }
-
-  // when leaving the app, make sure we remove dangling pointers
-  componentWillUnmount() {
-    clearInterval(this.timerID);
-  }
-
-
-
-
-  // function gets called every second to update the timer
-  // every time secondsPassed gets to __refreshLimit, we want to grab info from spotify
-  tick() {
-    if (this.state.secondsPassed > __refreshLimit) {
-      this.api_getSongDetails();            //
-      this.setState({secondsPassed: 0});
-    } else {
-      this.setState({secondsPassed: this.state.secondsPassed + 1});
-    }
-  }
-
 
   // Spotify API Interactions --------------------------------------------------
   /*
@@ -155,7 +117,7 @@ class PlayerPage extends Component {
     this.props.spotifyAPI.getMyCurrentPlaybackState()
     .then((response) => {
       this.setState({
-        nowPlaying: {
+        nowPlaying: { 
             name: response.item.name,
             artist: response.item.artists[0].name,
             albumArt: response.item.album.images[0].url
@@ -222,13 +184,13 @@ class PlayerPage extends Component {
   }
 
   // queue ---------------------------------------------------------------------
-
+  
   onQueueDrop(song, drag_index, drop_index, pos) {
     // Check if dragged on self
     if (drag_index === drop_index) {
       return;
     }
-
+    
     // Delete dragged song
     var songs = this.state.songs.slice();
 
@@ -280,7 +242,7 @@ class PlayerPage extends Component {
 
   // renders component for displaying album art / name
   //
-  // will need to call the api every x units to have it automatically
+  // will need to call the api every x units to have it automatically 
   // change song display on song change
   renderSongDetails = () => {
     if (this.state.nowPlaying.name != ''){
@@ -297,6 +259,9 @@ class PlayerPage extends Component {
               {this.state.nowPlaying.artist}
             </div>
           </div>
+          <div id="song_details_button" style={{'paddingTop': "1em"}}>
+            <button onClick={() => this.api_getSongDetails()}>Get current song info</button>
+          </div>
         </div>
       );
     } else{
@@ -304,6 +269,9 @@ class PlayerPage extends Component {
         <div id="song_details_container" style={{'display': 'flex', 'flex-direction': 'column', 'justifyContent': 'center', 'alignItems': 'center'}}>
           <div id="song_details_song">
             No song is currently playing.
+          </div>
+          <div id="song_details_button" style={{'paddingTop': "1em"}}>
+            <button onClick={() => this.api_getSongDetails()}>Get current song info</button>
           </div>
         </div>
       );
@@ -313,8 +281,13 @@ class PlayerPage extends Component {
   // renders component that user interacts with to play/pause/skip
   renderSongControls = () => {
     return (
-      <div id="song_controls_container">
-        <p>spotify controller will go here</p>
+      <div id="song_controls_container" style={{'display': 'flex', 'justifyContent': 'center', 'alignItems': 'center'}}>
+        <div id="buttons">
+            <button id="prev" onClick={() => this.api_goToPrevSong()}><img src="back.png" height= "55" width="55"/></button>
+            <button id="pause" onClick={() => this.api_pauseSong()}><img src="pause.png" height="55" width="55"/></button>
+            <button id="play" onClick={() => this.api_playSong()}><img src="play.png" height="55" width="55"/></button>
+            <button id="next" onClick={() => this.api_goToNextSong()}><img src="back.png" height="55" width="55"/></button>
+        </div>
       </div>
     );
   }
