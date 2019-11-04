@@ -55,7 +55,6 @@ function Song (props) {
       isAbove: !!monitor.isOver(),
     }),
     drop: (item) => props.onQueueDrop(item.song, item.index, props.index, "above"),
-    
   })
 
   // Handles "below" dropzone
@@ -68,22 +67,21 @@ function Song (props) {
   })
 
   // render --------------------------------------------------------------------
-      
   return (
     <tr
       ref={drag}
       style={{
         opacity: isDragging ? 0.5 : 1,
-        cursor: 'move',
+        cursor:           'ns-resize',
       }}
 
       id={props.id}
       className={props.current}
     >
-      <td>{props.song.title}</td>
-      <td>{props.song.artist}</td>
-      <td>{props.song.album}</td>
-      <td>{props.song.duration}</td>
+      <td>{ props.song.title    }</td>
+      <td>{ props.song.artist   }</td>
+      <td>{ props.song.album    }</td>
+      <td>{ props.song.duration }</td>
 
       {/* 
           DROPZONE EXPLANATION:
@@ -94,6 +92,7 @@ function Song (props) {
           "above" it will insert above the row and vice versa for "below". 
           For clarification, inspect element on "dropzones"
       */}
+
       <div className="dropzones"
         style={{
           borderTop:      isAbove ? "2px solid #1DB954" : "",
@@ -113,6 +112,5 @@ function Song (props) {
     </tr>
   );
 }
-
 
 export default Song;

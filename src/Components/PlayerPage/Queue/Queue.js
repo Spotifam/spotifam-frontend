@@ -35,12 +35,12 @@ class Queue extends Component {
 
     return (
       <Song
-        key={id} // Used in React.
-        id={id}  // Used as html id.
-        index={index}
-        song={song_object}
-        current={current}
-        onQueueDrop={this.props.onQueueDrop}
+        key={                             id }  // Used in React
+        id={                              id }  // Used as html id
+        index={                        index }
+        song={                   song_object }
+        current={                    current }
+        onQueueDrop={ this.props.onQueueDrop }
       />
     );
   }
@@ -54,7 +54,7 @@ class Queue extends Component {
 
   render () {
     return (
-      <DndProvider backend={TouchBackend} options={{enableMouseEvents: true, delayTouchStart: 150}}>
+      <DndProvider backend={TouchBackend} options={{enableMouseEvents: true, delayTouchStart: 50}}>
         <table id="Queue">
           <tbody>
             <tr>
@@ -64,7 +64,7 @@ class Queue extends Component {
               <th>DURATION</th>
             </tr>
 
-            {/* Populate the table with songs stored in App.js*/}
+            {/* Populate the table with songs stored in PlayerPage.js*/}
             {this.props.songs.map((song, index) => {
               return this.renderSong(song, index);
             })}

@@ -12,11 +12,19 @@
 
   border-bottom: 2px solid #292929;
   text-align: left;
+
+  -webkit-user-select: none; /* Safari */        
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* IE10+/Edge */
+  user-select: none; /* Standard */
 }
 
 #Queue td  {
+  max-width: 25%;
   padding: 10px;
-  
+  white-space: nowrap;
+  overflow: hidden;
+
   background-color: #181818;
   
   letter-spacing: .1px;

@@ -236,7 +236,7 @@ class PlayerPage extends Component {
       return;
     }
 
-    // Delete dragged song
+    // Copy songs array
     var songs = this.state.songs.slice();
 
     // Delete dragged song from Queue
@@ -246,9 +246,9 @@ class PlayerPage extends Component {
     // shift from deleting dragged song. Since we are directly modifying a
     // value as we are inserting indicies get wonky.
     var offset = 0;
-    if (pos === "above"){
+    if (pos === "above") {
       offset = (drag_index > drop_index) ? 0 : -1;
-    } else if (pos === "below"){
+    } else if (pos === "below") {
       offset = (drop_index > drag_index) ? 0 :  1;
     }
 
@@ -258,6 +258,8 @@ class PlayerPage extends Component {
     // Handle current song movement
     if (drag_index === this.state.current_song) { // if the current song is moved
       this.setState({current_song: drop_index + offset});
+    } else if (drag_index === drop_index + offset) { // if a song doesn't change place.
+      // do nothing.
     } else if (drag_index < this.state.current_song && drop_index >= this.state.current_song) {
       this.setState({current_song: this.state.current_song - 1});
     } else if (drag_index > this.state.current_song && drop_index <= this.state.current_song) {
@@ -322,8 +324,8 @@ class PlayerPage extends Component {
 
   // renders component that user interacts with to play/pause/skip
   renderSongControls = () => {
-    if(this.state.songPlaying){
-      return (
+    if(this.state.songPlaying) {
+      return (  
         <div id="song_controls_container" style={{'display': 'flex', 'justifyContent': 'center', 'alignItems': 'center'}}>
           <div id="buttons">
               <button id="prev" onClick={() => this.api_goToPrevSong()}><img src="back.png" height= "55" width="55"/></button>
@@ -378,7 +380,7 @@ class PlayerPage extends Component {
     return (
       <div id="PlayerPage">
         <div id="title_row">
-          <h1 id="spotifam_title">Spotifam</h1>
+          <img src="./spotifam_logo_outline.png" draggable="false" id="spotifam_title"/>
           <h3 id="room_code_text">spotifam.casa/room/CODE</h3>
         </div>
 
