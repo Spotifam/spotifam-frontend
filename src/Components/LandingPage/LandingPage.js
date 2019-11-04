@@ -33,8 +33,7 @@ class LandingPage extends Component {
       <div id="LandingPage">
 
           <div class="topnav">
-            <img src="./Spotifam.png"/>
-            <p>SpotiFam</p>
+            <img draggable="false" src="./spotifam_logo.png"/>
           </div>
           <div class="contents">
             <h1>Control your music as a group.</h1>

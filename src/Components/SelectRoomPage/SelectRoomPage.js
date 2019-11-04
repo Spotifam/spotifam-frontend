@@ -76,7 +76,7 @@ class SelectRoomPage extends Component {
     return (
       <div id="SelectRoomPage">
         <div id="content_container">
-          <h1 id="title">Spotifam</h1>
+          <img id="logo" alt="Spotifam" draggable="false" src="./spotifam_logo_outline.png"></img>
           <h3 className="text">Find your room</h3>
           <p className="italics_text" style={{'color': '#c9c9c9'}}>No Spotify Login required</p>
           <input
@@ -90,7 +90,7 @@ class SelectRoomPage extends Component {
             {this.renderSearchButton()}
           </div>
         </div>
-        <p className="italics_text" style={{'color': 'grey'}}>made with <span style={{'color': '#46e200'}}>&#9829;</span> in Santa Cruz</p>
+        <p className="italics_text" style={{'color': 'grey'}}>made with <span style={{'color': '#1DB954'}}>&#9829;</span> in Santa Cruz</p>
       </div>
     );
   }

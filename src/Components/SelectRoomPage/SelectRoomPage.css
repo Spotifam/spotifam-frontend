@@ -14,7 +14,11 @@
   align-items: center;
   justify-content: center;
   border: 1px solid #c9c9c9;
-  padding: 60px 40px;
+  padding: 10px 40px 40px 40px;
+}
+
+#SelectRoomPage #logo {
+  width: 300px;
 }
 
 #SelectRoomPage #title {
@@ -26,11 +30,17 @@
 #SelectRoomPage .text {
   margin: 0px;
   font-size: 1.5em;
+  font-family: filicudi-solid, sans-serif;
+  font-style: normal;
+  font-weight: 400;
 }
 
 #SelectRoomPage .italics_text {
+  font-family: fira-sans-compressed-2, sans-serif;
+  font-weight: 700;
   font-style: italic;
-  margin: 0px;
+  font-size: .9em;
+  margin: 3px;
 }
 
 #SelectRoomPage #room_code_input {
@@ -44,7 +54,7 @@
 }
 
 #SelectRoomPage #room_code_input:focus {
-  border-color: #46e200;
+  border-color: #1DB954;
 }
 
 #SelectRoomPage #find_room_button_active {
@@ -52,7 +62,8 @@
   height: 40px;
   font-size: 1.5em;
   margin-top: 10px;
-  background-color: #46e200;
+  margin-right: .6em;
+  background-color: #1DB954;
   border: none;
   color: black;
 }
@@ -62,6 +73,7 @@
   height: 40px;
   font-size: 1.5em;
   margin-top: 10px;
+  margin-right: .6em;
   background-color: grey;
   border: none;
   color: black;
