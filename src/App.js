@@ -33,10 +33,13 @@ import PlayerPage from './Components/PlayerPage/PlayerPage.js';
 import SelectRoomPage from './Components/SelectRoomPage/SelectRoomPage.js';
 import RoomPage from './Components/RoomPage/RoomPage.js';
 
+// Room Object
+import SpotifamAPI from './SpotifamAPI.js';
 
 // Spotify
 import SpotifyWebApi from 'spotify-web-api-js';
 const spotifyAPI = new SpotifyWebApi();
+const spotifamAPI = new SpotifamAPI();
 
 // =============================================================================
 // Constants
@@ -59,6 +62,7 @@ class App extends Component {
     const accessToken = urlParams.access_token;
     if (accessToken) {
       spotifyAPI.setAccessToken(accessToken);
+      spotifamAPI.setAuthCode(accessToken);
     }
 
 
@@ -137,6 +141,7 @@ class App extends Component {
          return (
            <PlayerPage
              spotifyAPI={spotifyAPI}
+             spotifamAPI={spotifamAPI}
            />
          );
         } else {

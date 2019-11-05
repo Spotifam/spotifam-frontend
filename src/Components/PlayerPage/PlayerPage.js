@@ -23,7 +23,6 @@ import Queue from './Queue/Queue.js';
 
 const __refreshLimit = 3; // for how often to refresh spotify info (in seconds)
 
-
 // TODO: remove this and make it actually represent the queue
 const __songs =  [
   // Example song list.
@@ -64,9 +63,9 @@ const __songs =  [
 // =============================================================================
 
 class PlayerPage extends Component {
-
-  constructor() {
+  constructor(props) {
     super();
+    props.spotifamAPI.createRoom();
     this.state = {
       current_song: 1,
       songs: __songs,
@@ -79,7 +78,8 @@ class PlayerPage extends Component {
       songPlaying: false,
       secondsPassed: 0
     };
-
+    console.log(props.spotifamAPI);
+    
     // We want the <Song/> component to be able to edit PlayerPage.songs so
     // we bind the state of this function to PlayerPage.
     this.onQueueDrop = this.onQueueDrop.bind(this);
@@ -103,21 +103,27 @@ class PlayerPage extends Component {
   }
 
 
-
-
   // function gets called every second to update the timer
   // every time secondsPassed gets to __refreshLimit, we want to grab info from spotify
   tick() {
     if (this.state.secondsPassed > __refreshLimit) {
-      this.api_getSongDetails();            //
+      this.api_getSongDetails();
       this.setState({secondsPassed: 0});
+      var self = this;
+      this.props.spotifamAPI.search("The less i Know").then(function (result) {
+        console.log(self.props.spotifamAPI.parseSong(result.tracks.items[0]));
+      });
+      this.props.spotifamAPI.getQueue().then(function (result) {
+      var list = []
+      if (result) {
+        list = result['list'];
+      }
+      self.setState({songs: list});
+    });
     } else {
       this.setState({secondsPassed: this.state.secondsPassed + 1});
     }
   }
-
-
-
 
   // Spotify API Interactions --------------------------------------------------
   /*
@@ -266,6 +272,9 @@ class PlayerPage extends Component {
       this.setState({current_song: this.state.current_song + 1});
     }
 
+    // Update queue changes on the server
+    this.props.spotifamAPI.updateQueue(songs);
+
     // Update songs array
     this.setState({songs: songs});
   }
@@ -364,6 +373,7 @@ class PlayerPage extends Component {
           <button onClick={() => this.api_goToNextSong()}>Next song</button>
           <button onClick={() => this.api_goToPrevSong()}>Prev song</button>
           <button onClick={() => this.api_searchForSong("The less i know the ")}>Example Search: The Less I K</button>
+          <button onClick={() => this.props.spotifamAPI.addSong({title: "a", artist: "b", album: "a", duration: "a"})}>Add Song</button>
         </div>
       );
     } else {
@@ -381,7 +391,7 @@ class PlayerPage extends Component {
       <div id="PlayerPage">
         <div id="title_row">
           <img src="./spotifam_logo_outline.png" draggable="false" id="spotifam_title"/>
-          <h3 id="room_code_text">spotifam.casa/room/CODE</h3>
+          <h3 id="room_code_text">spotifam.casa/room/{this.props.spotifamAPI.getRoomCode()}</h3>
         </div>
 
         <div id="content_container">
