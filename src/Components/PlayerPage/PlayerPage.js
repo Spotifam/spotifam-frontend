@@ -25,37 +25,6 @@ const __refreshLimit = 3; // for how often to refresh spotify info (in seconds)
 
 // TODO: remove this and make it actually represent the queue
 const __songs =  [
-  // Example song list.
-  {
-    title:        "End Of The Day",
-    artist:                 "Beck",
-    album:            "Sea Change",
-    duration:              "5:03" ,
-  },
-  {
-    title:    "Conversation Piece",
-    artist:          "David Bowie",
-    album:    "Conversation Piece",
-    duration:               "3:11",
-  },
-  {
-    title:              "Rainbows",
-    artist:         "David Wilson",
-    album:    "Pacific Ocean Blue",
-    duration:               "2:48",
-  },
-  {
-    title:        "Watermelon Man",
-    artist:       "Herbie Hancock",
-    album:          "Head Hunters",
-    duration:               "6:29",
-  },
-  {
-    title:       "Breath of Night",
-    artist:       "Osamu Kitajima",
-    album:    "Masterless Samurai",
-    duration:               "6:53",
-  },
 ];
 
 // =============================================================================
@@ -67,7 +36,7 @@ class PlayerPage extends Component {
     super();
     props.spotifamAPI.createRoom();
     this.state = {
-      current_song: 1,
+      current_song: 0,
       songs: __songs,
       debugModeActive: true,
       nowPlaying: {
@@ -110,9 +79,6 @@ class PlayerPage extends Component {
       this.api_getSongDetails();
       this.setState({secondsPassed: 0});
       var self = this;
-      this.props.spotifamAPI.search("The less i Know").then(function (result) {
-        console.log(self.props.spotifamAPI.parseSong(result.tracks.items[0]));
-      });
       this.props.spotifamAPI.getQueue().then(function (result) {
       var list = []
       if (result) {
@@ -214,12 +180,22 @@ class PlayerPage extends Component {
 
   // skips a song
   api_goToNextSong = () => {
-    this.props.spotifyAPI.skipToNext();
+    if (this.state.current_song !== this.state.songs.length - 1 ) {
+      this.setState({current_song: this.state.current_song + 1});
+    }
+    var current_song_uri = this.state.songs[this.state.current_song].uri;
+    console.log(this.state.current_song);
+    this.api_playSong(current_song_uri);
   }
 
   // goes back to the last song
   api_goToPrevSong = () => {
-    this.props.spotifyAPI.skipToPrevious();
+    if (this.state.current_song !== 0) {
+      this.setState({current_song: this.state.current_song - 1});
+    }
+    var current_song_uri = this.state.songs[this.state.current_song].uri;
+    console.log(current_song_uri)
+    this.api_playSong(current_song_uri);
   }
 
   // performs a search for a song
@@ -350,7 +326,7 @@ class PlayerPage extends Component {
       <div id="song_controls_container" style={{'display': 'flex', 'justifyContent': 'center', 'alignItems': 'center'}}>
         <div id="buttons">
             <button id="prev" onClick={() => this.api_goToPrevSong()}><img src="back.png" height= "55" width="55"/></button>
-            <button id="play" onClick={() => this.api_playSong()}><img src="play.png" height="55" width="55"/></button>
+            <button id="play" onClick={() => this.api_playSong(this.state.songs[this.state.current_song].uri)}><img src="play.png" height="55" width="55"/></button>
             <button id="next" onClick={() => this.api_goToNextSong()}><img src="back.png" height="55" width="55"/></button>
         </div>
       </div>
@@ -373,7 +349,8 @@ class PlayerPage extends Component {
           <button onClick={() => this.api_goToNextSong()}>Next song</button>
           <button onClick={() => this.api_goToPrevSong()}>Prev song</button>
           <button onClick={() => this.api_searchForSong("The less i know the ")}>Example Search: The Less I K</button>
-          <button onClick={() => this.props.spotifamAPI.addSong({title: "a", artist: "b", album: "a", duration: "a"})}>Add Song</button>
+          <button onClick={() => this.props.spotifamAPI.addSong({title: "The Less I Know the Better", artist: "Tame Impala", album: "Currents", duration: "--", uri: "spotify:track:6K4t31amVTZDgR3sKmwUJJ"})}>Add Song</button>
+          <button onClick={() => this.props.spotifamAPI.addSong({title: "The Less I Know the Better2", artist: "Tame Impala", album: "Currents", duration: "--", uri: "spotify:track:0rRboI6IRuGx56Dq3UdYY4"})}>Add Song</button>
         </div>
       );
     } else {
