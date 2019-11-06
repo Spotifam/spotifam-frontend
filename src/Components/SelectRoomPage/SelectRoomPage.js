@@ -9,21 +9,13 @@
     - none yet
 
   Child Components
-    - none yet
+    - <MobileRoom/>
 */
 
 
 import React, { Component } from 'react';
 import './SelectRoomPage.css';
-
-// routing
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Link
-} from "react-router-dom";
-
+import MobileRoom from './MobileRoom/MobileRoom.js';
 
 const __roomCodeLength = 4;
 
@@ -33,7 +25,8 @@ class SelectRoomPage extends Component {
     super();
 
     this.state = {
-      roomCodeText: ""
+      roomCodeText: "",
+      loggedIntoRoom: false
     };
   }
 
@@ -47,6 +40,13 @@ class SelectRoomPage extends Component {
     }
   }
 
+  //
+  onClick_selectRoom = () => {
+    this.props.spotifamAPI.checkIfRoomExists(this.state.roomCodeText).then(result => {
+      this.setState({loggedIntoRoom: result.exists});
+      this.props.spotifamAPI.setRoomCode(this.state.roomCodeText);
+    });
+  }
 
   // render --------------------------------------------------------------------
 
@@ -55,44 +55,54 @@ class SelectRoomPage extends Component {
   // if the room code is not formatted correctly, this button is not rendered with an onclick
   renderSearchButton = () => {
     if (this.state.roomCodeText.length === __roomCodeLength) {
-      let newURL = "/room/" + this.state.roomCodeText;
       return (
-        <Link to={newURL}>
-          <button
-            id="find_room_button_active"
-            >Go
-          </button>
-        </Link>
+        <button
+          id="find_room_button_active"
+          onClick={this.onClick_selectRoom}>
+          Go
+        </button>
       );
     } else {
       return (
-        <button id="find_room_button_inactive">go</button>
+        <button id="find_room_button_inactive">go!</button>
       );
     }
   }
 
   // Renders <SelectRoomPage/>
   render() {
-    return (
-      <div id="SelectRoomPage">
-        <div id="content_container">
-          <img id="logo" alt="Spotifam" draggable="false" src="./spotifam_logo_outline.png"></img>
-          <h3 className="text">Find your room</h3>
-          <p className="italics_text" style={{'color': '#c9c9c9'}}>No Spotify Login required</p>
-          <input
-            id="room_code_input"
-            placeholder="ABCD"
-            value={this.state.roomCodeText}
-            onChange={this.onInput_updateRoomCode.bind(this)}
-          />
 
-          <div style={{'width': '100%', 'display': 'flex', 'justify-content': 'flex-end'}}>
-            {this.renderSearchButton()}
+    if (! this.state.loggedIntoRoom) {
+      return (
+        <div id="SelectRoomPage">
+          <div id="content_container">
+            <img id="logo" alt="Spotifam" draggable="false" src="./spotifam_logo_outline.png"></img>
+            <h3 className="text">Find your room</h3>
+            <p className="italics_text" style={{'color': '#c9c9c9'}}>No Spotify Login required</p>
+            <input
+              id="room_code_input"
+              placeholder="ABCD"
+              value={this.state.roomCodeText}
+              onChange={this.onInput_updateRoomCode.bind(this)}
+            />
+
+            <div style={{'width': '100%', 'display': 'flex', 'justify-content': 'flex-end'}}>
+              {this.renderSearchButton()}
+            </div>
           </div>
+          <p className="italics_text" style={{'color': 'grey'}}>made with <span style={{'color': '#1DB954'}}>&#9829;</span> in Santa Cruz</p>
         </div>
-        <p className="italics_text" style={{'color': 'grey'}}>made with <span style={{'color': '#1DB954'}}>&#9829;</span> in Santa Cruz</p>
-      </div>
-    );
+      );
+    } else {
+      return (
+        <div>
+          <MobileRoom
+            spotifamAPI={this.props.spotifamAPI}
+            roomCode={this.state.roomCodeText}
+          />
+        </div>
+      );
+    }
   }
 }
 

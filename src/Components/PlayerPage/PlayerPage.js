@@ -79,7 +79,7 @@ class PlayerPage extends Component {
       secondsPassed: 0
     };
     console.log(props.spotifamAPI);
-    
+
     // We want the <Song/> component to be able to edit PlayerPage.songs so
     // we bind the state of this function to PlayerPage.
     this.onQueueDrop = this.onQueueDrop.bind(this);
@@ -110,9 +110,6 @@ class PlayerPage extends Component {
       this.api_getSongDetails();
       this.setState({secondsPassed: 0});
       var self = this;
-      this.props.spotifamAPI.search("The less i Know").then(function (result) {
-        console.log(self.props.spotifamAPI.parseSong(result.tracks.items[0]));
-      });
       this.props.spotifamAPI.getQueue().then(function (result) {
       var list = []
       if (result) {
@@ -334,7 +331,7 @@ class PlayerPage extends Component {
   // renders component that user interacts with to play/pause/skip
   renderSongControls = () => {
     if(this.state.songPlaying) {
-      return (  
+      return (
         <div id="song_controls_container" style={{'display': 'flex', 'justifyContent': 'center', 'alignItems': 'center'}}>
           <div id="buttons">
               <button id="prev" onClick={() => this.api_goToPrevSong()}><img src="back.png" height= "55" width="55"/></button>
@@ -356,7 +353,7 @@ class PlayerPage extends Component {
       </div>
     );
     }
-   
+
   }
 
   // renders buttons that show developers helpful buttons w/ API functionality

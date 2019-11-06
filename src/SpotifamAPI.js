@@ -17,7 +17,7 @@ import generate from "@babel/generator"
 const BASE_URL = "http://127.0.0.1:5000"
 
 class SpotifamAPI {
-    
+
     constructor () {
         this.room_code ="";
         this.auth_tok = "";
@@ -36,6 +36,11 @@ class SpotifamAPI {
     getRoomCode () {
         return this.room_code;
     }
+
+    setRoomCode(roomCode) {
+      this.room_code = roomCode;
+    }
+
 
     // HELPER FUNCTIONS -----------------------------------------------
     parseSong(song) {
@@ -61,7 +66,7 @@ class SpotifamAPI {
         let response = await fetch(create_room_url)
             .then(response => response.json())
             .catch(error => console.error(error));
-        
+
         this.room_code = response['room'];
         return response;
     }
@@ -75,6 +80,7 @@ class SpotifamAPI {
         return response;
     }
 
+    // song object is of same format as from parseSong()
     async addSong (song) {
         var addsong_url = BASE_URL + "/addsong/";
         var data = new FormData();
@@ -105,8 +111,12 @@ class SpotifamAPI {
         return response;
     }
 
-    async search (query) {
-        var search_url = BASE_URL + "/search?query=" + query + "&room=" + this.room_code;
+    async search (query, roomCode = false) {
+        let code = this.room_code;
+        if (roomCode !== false) {
+          code = roomCode;
+        }
+        var search_url = BASE_URL + "/search?query=" + query + "&room=" + code;
         let response = await fetch(search_url)
             .then(response => response.json())
             .catch(error => console.error(error));
@@ -114,6 +124,17 @@ class SpotifamAPI {
         console.log(response);
         return response;
     }
+
+    async checkIfRoomExists (roomCode) {
+      var room_url = BASE_URL + "/checkroom?room=" + roomCode;
+      let response = await fetch(room_url)
+          .then(response => response.json())
+          .catch(error => console.error(error));
+
+      console.log(response);
+      return response;
+    }
+
 }
 
 export default SpotifamAPI;
