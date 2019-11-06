@@ -48,7 +48,7 @@ class PlayerPage extends Component {
       secondsPassed: 0
     };
     console.log(props.spotifamAPI);
-    
+
     // We want the <Song/> component to be able to edit PlayerPage.songs so
     // we bind the state of this function to PlayerPage.
     this.onQueueDrop = this.onQueueDrop.bind(this);
@@ -310,7 +310,7 @@ class PlayerPage extends Component {
   // renders component that user interacts with to play/pause/skip
   renderSongControls = () => {
     if(this.state.songPlaying) {
-      return (  
+      return (
         <div id="song_controls_container" style={{'display': 'flex', 'justifyContent': 'center', 'alignItems': 'center'}}>
           <div id="buttons">
               <button id="prev" onClick={() => this.api_goToPrevSong()}><img src="back.png" height= "55" width="55"/></button>
@@ -332,7 +332,7 @@ class PlayerPage extends Component {
       </div>
     );
     }
-   
+
   }
 
   // renders buttons that show developers helpful buttons w/ API functionality

@@ -131,7 +131,9 @@ class App extends Component {
 
        // mobile user will need to select a room
        return (
-         <SelectRoomPage/>
+         <SelectRoomPage
+           spotifamAPI={spotifamAPI}
+         />
        );
 
      } else {
