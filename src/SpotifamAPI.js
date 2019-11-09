@@ -14,7 +14,7 @@ import generate from "@babel/generator"
 // For production
 //var BASE_URL = "http://spotifam.com"
 
-const BASE_URL = "http://127.0.0.1:5000"
+const BASE_URL = window.location.hostname === "localhost" ? "http://127.0.0.1:5000" : "http://spotifam.com";
 
 class SpotifamAPI {
 
