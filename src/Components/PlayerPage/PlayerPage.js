@@ -22,7 +22,7 @@ import { throwStatement } from '@babel/types';
 
 // constants -------------------------------------------------------------------
 
-const __refreshLimit = 3; // for how often to refresh spotify info (in seconds)
+const __refreshLimit = 1; // for how often to refresh spotify info (in seconds)
 
 // TODO: remove this and make it actually represent the queue
 const __songs =  [
@@ -37,6 +37,7 @@ class PlayerPage extends Component {
     super();
     props.spotifamAPI.createRoom();
     this.state = {
+      paused_by_user: true,
       current_device_id: "",
       current_song: 0,
       songs: __songs,
@@ -80,6 +81,7 @@ class PlayerPage extends Component {
       this.api_getSongDetails();
       this.api_setDevice();
       this.setState({secondsPassed: 0});
+      this.api_handleAutoPlay();
       var self = this;
       this.props.spotifamAPI.getQueue().then(function (result) {
       var list = []
@@ -134,7 +136,6 @@ class PlayerPage extends Component {
 
       // TODO: remove this console.log
       console.log(response.is_playing);
-
       this.setState({
         nowPlaying: {
           name: response.item.name,
@@ -177,12 +178,14 @@ class PlayerPage extends Component {
     }).catch(function(err) {
       console.log(err);
     });
+    this.setState({paused_by_user: false});
   }
 
 
   // pauses playback
   api_pauseSong = () => {
     this.props.spotifyAPI.pause();
+    this.setState({paused_by_user: true});
   }
 
   // skips a song
@@ -234,6 +237,19 @@ class PlayerPage extends Component {
     this.props.spotifyAPI.getMyDevices().then(function (result) {
       if (result.devices) {
         self.setState({current_device_id: result.devices[0].id});
+      }
+    });
+  }
+
+  api_handleAutoPlay = () => {
+    var self = this;
+    this.props.spotifyAPI.getMyCurrentPlaybackState()
+    .then((response) => {
+      if (this.state.songs.length !== 0) {
+        //var total_time = self.state.songs[this.state.current_song].duration;
+        if (response.is_playing === false & this.state.paused_by_user === false) {
+          self.api_goToNextSong();
+        }
       }
     });
   }
