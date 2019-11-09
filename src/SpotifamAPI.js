@@ -14,7 +14,7 @@ import generate from "@babel/generator"
 // For production
 //var BASE_URL = "http://spotifam.com"
 
-const BASE_URL = window.location.hostname === "localhost" ? "http://127.0.0.1:5000" : "http://spotifam.com";
+const BASE_URL = window.location.hostname === "localhost" ? "http://127.0.0.1:5000" : "http://api.spotifam.com";
 
 class SpotifamAPI {
 
@@ -72,7 +72,7 @@ class SpotifamAPI {
     }
 
     // Update queue for room
-    async getQueue (self) {
+    async getQueue () {
         var getqueue_url = BASE_URL + "/getqueue/?room_code=" + this.room_code;
         let response = await fetch(getqueue_url)
             .then(response => response.json())

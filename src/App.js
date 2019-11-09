@@ -118,7 +118,8 @@ class App extends Component {
   */
 
   onClick_loginToSpotify = () => {
-    window.open('http://localhost:8888', "_self");
+    //window.open('http://localhost:8888', "_self");
+    window.open('http://auth.spotifam.com', "_self");
   }
 
   // render --------------------------------------------------------------------
