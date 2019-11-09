@@ -36,7 +36,30 @@ import "./Song.css";
 import { ItemTypes } from './Constants.js';
 import { useDrag, useDrop } from 'react-dnd';
 
+function format_time(ms) {
+  var hours = Math.floor( (ms / 3600000) );
+  var mins = Math.floor( ( ms % 3600000) / 60000 );
+  var secs = Math.floor( ( (ms % 60000 ) / 1000 ) );
+
+  if (0 <= secs & secs <= 9) {
+    secs = "0" + secs;
+  }
+  
+  var duration = "";
+
+  if (hours) {
+    duration = hours + ":" + mins + ":" + secs;
+  } else if (mins) {
+    duration = mins + ":" + secs;
+  } else if (secs) {
+    duration = "" + secs;
+  }
+  return duration;
+};
+
 function Song (props) {
+  // Formatting ----------------------------------------------------------------
+  var time = format_time(props.song.duration);
   
   // Drag and Drop -------------------------------------------------------------
 
@@ -81,7 +104,7 @@ function Song (props) {
       <td>{ props.song.title    }</td>
       <td>{ props.song.artist   }</td>
       <td>{ props.song.album    }</td>
-      <td>{ props.song.duration }</td>
+      <td>{ time }</td> {/* ms to mins:secs*/}
 
       {/* 
           DROPZONE EXPLANATION:

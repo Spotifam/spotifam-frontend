@@ -17,6 +17,7 @@
 import React, { Component } from 'react';
 import './PlayerPage.css';
 import Queue from './Queue/Queue.js';
+import { throwStatement } from '@babel/types';
 
 
 // constants -------------------------------------------------------------------
@@ -36,6 +37,7 @@ class PlayerPage extends Component {
     super();
     props.spotifamAPI.createRoom();
     this.state = {
+      current_device_id: "",
       current_song: 0,
       songs: __songs,
       debugModeActive: true,
@@ -47,7 +49,6 @@ class PlayerPage extends Component {
       songPlaying: false,
       secondsPassed: 0
     };
-    console.log(props.spotifamAPI);
 
     // We want the <Song/> component to be able to edit PlayerPage.songs so
     // we bind the state of this function to PlayerPage.
@@ -77,6 +78,7 @@ class PlayerPage extends Component {
   tick() {
     if (this.state.secondsPassed > __refreshLimit) {
       this.api_getSongDetails();
+      this.api_setDevice();
       this.setState({secondsPassed: 0});
       var self = this;
       this.props.spotifamAPI.getQueue().then(function (result) {
@@ -100,6 +102,7 @@ class PlayerPage extends Component {
       - api_goToNextSong():         skips to the next song
       - api_goToPrevSong():         goes to the previously played song
       - api_searchForSong():        searches for a track with the right name
+      - api_setDevice():            sets the current device to start playback on.
   */
 
 
@@ -154,7 +157,6 @@ class PlayerPage extends Component {
   //  3) a list of trackIDs       ->  plays the first song in the list and adds the rest to top of queue
   // reference: https://developer.spotify.com/documentation/web-api/reference/player/start-a-users-playback/
   api_playSong = (songID = null) => {
-
     let playObject = {};
     if (songID !== null) {
       if (typeof songID === "string") {
@@ -162,6 +164,11 @@ class PlayerPage extends Component {
       } else if ((typeof songID === "object") && (Array.isArray(songID))) {
         playObject = { "uris": songID };
       }
+    }
+
+    // Handles which device to play a song on
+    if (this.state.current_device_id !== "") {
+      playObject["device_id"] = this.state.current_device_id; 
     }
 
     this.props.spotifyAPI.play(playObject)
@@ -180,20 +187,24 @@ class PlayerPage extends Component {
 
   // skips a song
   api_goToNextSong = () => {
+    var curr = this.state.current_song;
     if (this.state.current_song !== this.state.songs.length - 1 ) {
-      this.setState({current_song: this.state.current_song + 1});
+      curr++;
+      this.setState({current_song: curr});
     }
-    var current_song_uri = this.state.songs[this.state.current_song].uri;
+    var current_song_uri = this.state.songs[curr].uri;
     console.log(this.state.current_song);
     this.api_playSong(current_song_uri);
   }
 
   // goes back to the last song
   api_goToPrevSong = () => {
+    var curr = this.state.current_song;
     if (this.state.current_song !== 0) {
-      this.setState({current_song: this.state.current_song - 1});
+      curr--;
+      this.setState({current_song: curr});
     }
-    var current_song_uri = this.state.songs[this.state.current_song].uri;
+    var current_song_uri = this.state.songs[curr].uri;
     console.log(current_song_uri)
     this.api_playSong(current_song_uri);
   }
@@ -207,6 +218,23 @@ class PlayerPage extends Component {
       console.log(result);
     }).catch(function(err) {
       console.log(err);
+    });
+  }
+
+  // Get Spotify Devices
+  api_setDevice = () => {
+    /*
+
+      Finds the most recently opened device and makes it the
+      default playback device.
+
+    */
+    
+    var self = this;
+    this.props.spotifyAPI.getMyDevices().then(function (result) {
+      if (result.devices) {
+        self.setState({current_device_id: result.devices[0].id});
+      }
     });
   }
 
