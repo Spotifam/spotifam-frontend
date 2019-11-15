@@ -84,9 +84,9 @@ class PlayerPage extends Component {
       this.api_handleAutoPlay();
       var self = this;
       this.props.spotifamAPI.getQueue().then(function (result) {
-      var list = []
-      if (result) {
-        list = result['list'];
+        var list = self.state.songs;
+        if (result) {
+          list = result['list'];
       }
       self.setState({songs: list});
     });
