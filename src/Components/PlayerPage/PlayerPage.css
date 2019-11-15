@@ -43,13 +43,13 @@
 }
 
 #PlayerPage #song_controls_container {
-  border: 1px solid white;
+  border: 0px solid white;
   height: 100px;
   width: 60%;
 }
 
 #PlayerPage #queue_container {
-  border: 1px solid white;
+  border: 0px solid white;
   width: 60%;
   height: 400px;
 }
