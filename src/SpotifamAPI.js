@@ -76,7 +76,7 @@ class SpotifamAPI {
     async getQueue () {
         var getqueue_url = BASE_URL + "/getqueue/?room_code=" + this.room_code;
         let response = await fetch(getqueue_url, {
-            headers: "Access-Control-Allow-Origin: *",
+            headers: {"Access-Control-Allow-Origin": "*"},
         })
             .then(response => response.json())
             .catch(error => console.error(error));
