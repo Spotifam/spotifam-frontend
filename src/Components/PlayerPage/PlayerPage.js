@@ -18,6 +18,7 @@ import React, { Component } from 'react';
 import './PlayerPage.css';
 import Queue from './Queue/Queue.js';
 import { throwStatement } from '@babel/types';
+import VisualizerPage from './VisualizerPage/VisualizerPage.js';
 
 
 // constants -------------------------------------------------------------------
@@ -47,7 +48,9 @@ class PlayerPage extends Component {
         albumArt: ''
       },
       songPlaying: false,
-      secondsPassed: 0
+      secondsPassed: 0,
+
+      visualizerPage: false,
     };
 
     // We want the <Song/> component to be able to edit PlayerPage.songs so
@@ -300,6 +303,7 @@ class PlayerPage extends Component {
     );
   }
 
+
   // renders component for displaying album art / name
   //
   // will need to call the api every x units to have it automatically
@@ -363,6 +367,14 @@ class PlayerPage extends Component {
 
   }
 
+  renderVisualizerChoice = () =>{
+    return (
+        <div>
+          <button id="dvd" onClick={() => this.setState({visualizerPage: true})}>VISUALIZERS</button>
+        </div>
+      );
+  }
+
   // renders buttons that show developers helpful buttons w/ API functionality
   renderAPIHelp = () => {
 
@@ -384,7 +396,7 @@ class PlayerPage extends Component {
     } else {
       return (
         <div>
-          <button onClick={() => this.setState({'debugModeActive': true})}>Show API help buttons</button>
+          <button>Show API help buttons</button>
         </div>
       );
     }
@@ -392,22 +404,35 @@ class PlayerPage extends Component {
 
   // Renders <PlayerPage/>
   render() {
-    return (
-      <div id="PlayerPage">
-        <div id="title_row">
-          <img src="./spotifam_logo_outline.png" draggable="false" id="spotifam_title"/>
-          <h3 id="room_code_text">spotifam.casa/room/{this.props.spotifamAPI.getRoomCode()}</h3>
-        </div>
 
+    if(this.state.visualizerPage == true){
+      return(
         <div id="content_container">
-          {this.renderSongDetails()}
-          {this.renderSongControls()}
-          {this.renderQueue()}
-          {this.renderAPIHelp()}
+          <VisualizerPage 
+              spotifyAPI={this.props.spotifyAPI}
+              spotifamAPI={this.props.spotifamAPI}/>
         </div>
+      ); 
+    }
+    else{
+      return (
+        <div id="PlayerPage">
+          <div id="title_row">
+            <img src="./spotifam_logo_outline.png" draggable="false" id="spotifam_title"/>
+            <h3 id="room_code_text">spotifam.casa/room/{this.props.spotifamAPI.getRoomCode()}</h3>
+          </div>
 
-      </div>
-    );
+          <div id="content_container">
+            {this.renderSongDetails()}
+            {this.renderSongControls()}
+            {this.renderQueue()}
+            {this.renderVisualizerChoice()}
+            {this.renderAPIHelp()}
+          </div>
+
+        </div>
+      );
+    }
   }
 }
 
