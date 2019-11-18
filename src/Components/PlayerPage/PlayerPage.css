@@ -28,94 +28,95 @@
 
 #PlayerPage #content_container {
   display: flex;
-  width: 100%;
-  flex-grow: 1;
-  flex-direction: column;
+  width: 75vw;
+  height: 70vh;
+  flex-direction: row;
   align-items: center;
   justify-content: flex-start;
+  align-self: center;
+  overflow: hidden;
+
+  background-color: #0c0c0d;
+  border: 1px solid #2a2a2e;
+  border-radius: 10px;
+}
+
+#PlayerPage #container_left {
+  display: flex;
+  flex-direction: column;
+  width: 30%;
+  height: 100%;
+
 }
 
 #PlayerPage #song_details_container {
   border: 0px solid white;
   margin-top: 50px;
-  width: 60%;
-  height: 400px;
+  width: 100%;
+  height: 100%;
+  flex-grow: 1;
 }
 
 #PlayerPage #song_controls_container {
   border: 0px solid white;
-  height: 100px;
-  width: 60%;
+  height: 65px;
+  width: 100%;
+  margin-top: auto;
 }
 
-#PlayerPage #queue_container {
+#PlayerPage #queue_container {  
   border: 0px solid white;
-  width: 60%;
-  height: 400px;
+  width: 70%;
+  height: 100%;
+  border-left: 1px solid #2a2a2e;
 }
 
 #PlayerPage #buttons{
-  height: 50px;
-  width:100%;
-  margin-top: 50px;
-  position: relative;
-  top: 10%;
-  left: 50%;
-  transform: translate(-50%,-50%);
+  height: 100%;
+  width: 100%;
+  display: flex;
+  align-items: stretch;
+  flex-direction: row;
 }
 
 #play, #next, #prev, #pause{
-  width:65px;
-  height: 65px;
-  border:0;
-  background-color: #1DB945;
-  border-radius: 50%;
+  width:33.333%;
+  height: 100%;
+  border: 1px solid #2a2a2e;
+  background-color: #0c0c0d;
   outline: none;
   cursor: pointer;
-  position: absolute;
-  top: 30%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  margin: 0px;
+  padding: 0px;
+  opacity: .5;
 }
-#next{
-  width: 40px;
-  height: 40px;
-  left: 58%;
+
+#play:hover, #next:hover, #prev:hover, #pause:hover{
+  opacity: 1;
+  transition: 150ms;
 }
-#prev{
-  width: 40px;
-  height: 40px;
-  left: 42%;
-}
+
 #prev img{
-  width: 25px;
-  height: 25px;
-  position: absolute;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  width: 15px;
+  height: 15px;
+  filter: invert(1);
 }
 #next img{
-  width: 25px;
-  height: 25px;
-  position: absolute;
-  top: 20%;
-  left: 20%;
+  width: 15px;
+  height: 15px;
   -moz-transform: scale(-1, -1);
   -o-transform: scale(-1, -1);
   -webkit-transform: scale(-1, -1);
   transform: scale(-1, -1);
+  filter: invert(1);
 }
 #play img{
-  position: absolute;
-  top: 50%;
-  left: 55%;
-  transform: translate(-50%, -50%);
+  width: 25px;
+  height: 25px;
+  filter: invert(1);
 }
 #pause img{
-  position: absolute;
-  width: 70px;
-  height: 70px;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  width: 25px;
+  height: 25px;
+  filter: invert(1);
 }

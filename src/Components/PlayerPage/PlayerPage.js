@@ -306,7 +306,6 @@ class PlayerPage extends Component {
   renderQueue = () => {
     return (
       <div id="queue_container">
-        <p>queue goes here</p>
         <Queue
           current_song={this.state.current_song}
           songs={this.state.songs}
@@ -344,7 +343,7 @@ class PlayerPage extends Component {
             No song is currently playing.
           </div>
           <div id="song_details_button" style={{'paddingTop': "1em"}}>
-            <button onClick={() => this.api_getSongDetails()}>Get current song info</button>
+            {/*<button onClick={() => this.api_getSongDetails()}>Get current song info</button>*/}
           </div>
         </div>
       );
@@ -416,10 +415,12 @@ class PlayerPage extends Component {
         </div>
 
         <div id="content_container">
-          {this.renderSongDetails()}
-          {this.renderSongControls()}
+          <div id="container_left">
+            {this.renderSongDetails()}
+            {this.renderSongControls()}
+          </div>
           {this.renderQueue()}
-          {this.renderAPIHelp()}
+          {/*this.renderAPIHelp()*/}
         </div>
 
       </div>
