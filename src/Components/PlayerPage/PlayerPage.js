@@ -360,7 +360,7 @@ class PlayerPage extends Component {
           next={this.api_goToNextSong}
           pause={this.api_pauseSong}
           play={this.api_playSong}
-          song_is_playing={this.songPlaying}
+          song_is_playing={this.state.songPlaying}
           current_song_uri={(this.state.songs.length === 0) ? "" : this.state.songs[this.state.current_song].uri}
         />
       </div>
