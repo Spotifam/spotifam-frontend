@@ -18,6 +18,7 @@ import React, { Component } from 'react';
 import './PlayerPage.css';
 import Queue from './Queue/Queue.js';
 import { throwStatement } from '@babel/types';
+import SongControls from './SongControls/SongControls';
 
 
 // constants -------------------------------------------------------------------
@@ -352,29 +353,18 @@ class PlayerPage extends Component {
 
   // renders component that user interacts with to play/pause/skip
   renderSongControls = () => {
-    if(this.state.songPlaying) {
-      return (
-        <div id="song_controls_container" style={{'display': 'flex', 'justifyContent': 'center', 'alignItems': 'center'}}>
-          <div id="buttons">
-              <button id="prev" onClick={() => this.api_goToPrevSong()}><img src="back.png" height= "55" width="55"/></button>
-              <button id="pause" onClick={() => this.api_pauseSong()}><img src="pause.png" height="55" width="55"/></button>
-              <button id="next" onClick={() => this.api_goToNextSong()}><img src="back.png" height="55" width="55"/></button>
-          </div>
-        </div>
-       );
-    }
-    else
-    {
-      return (
-      <div id="song_controls_container" style={{'display': 'flex', 'justifyContent': 'center', 'alignItems': 'center'}}>
-        <div id="buttons">
-            <button id="prev" onClick={() => this.api_goToPrevSong()}><img src="back.png" height= "55" width="55"/></button>
-            <button id="play" onClick={() => this.api_playSong(this.state.songs[this.state.current_song].uri)}><img src="play.png" height="55" width="55"/></button>
-            <button id="next" onClick={() => this.api_goToNextSong()}><img src="back.png" height="55" width="55"/></button>
-        </div>
+    return (
+      <div id="song_controls_container">
+        <SongControls
+          prev={this.api_goToPrevSong}
+          next={this.api_goToNextSong}
+          pause={this.api_pauseSong}
+          play={this.api_playSong}
+          song_is_playing={this.songPlaying}
+          current_song_uri={(this.state.songs.length === 0) ? "" : this.state.songs[this.state.current_song].uri}
+        />
       </div>
     );
-    }
 
   }
 
