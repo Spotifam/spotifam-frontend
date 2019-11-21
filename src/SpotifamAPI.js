@@ -90,7 +90,7 @@ class SpotifamAPI {
     async addSong (song) {
         var addsong_url = BASE_URL + "/addsong/";
         var data = new FormData();
-        data.append("song", JSON.stringify(song));
+        data.append("song", song);
         data.append("room", this.room_code);
 
         let response = await fetch(addsong_url, {
