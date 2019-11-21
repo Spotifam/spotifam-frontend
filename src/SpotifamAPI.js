@@ -94,7 +94,7 @@ class SpotifamAPI {
             method: 'POST',
             mode: "cors",
             headers: {
-                "Content-Type": "application/x-www-form-urlencoded",
+                "Content-Type": "text/plain; charset=utf-8",
             },
             body: JSON.stringify({
                 song: song, 
