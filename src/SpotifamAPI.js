@@ -93,7 +93,13 @@ class SpotifamAPI {
         let response = await fetch(addsong_url, {
             method: 'POST',
             mode: "cors",
-            body: JSON.stringify({song: song, room: this.room_code}),
+            headers: {
+                "Content-Type": "application/x-www-form-urlencoded",
+            },
+            body: JSON.stringify({
+                song: song, 
+                room: this.room_code
+            }),
           });
 
         console.log(response);
