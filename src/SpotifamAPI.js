@@ -89,14 +89,11 @@ class SpotifamAPI {
     // song object is of same format as from parseSong()
     async addSong (song) {
         var addsong_url = BASE_URL + "/addsong/";
-        var data = new FormData();
-        data.append("song", song);
-        data.append("room", this.room_code);
 
         let response = await fetch(addsong_url, {
             method: 'POST',
             mode: "cors",
-            body: data
+            body: JSON.stringify({song: song, room: this.room_code}),
           });
 
         console.log(response);
