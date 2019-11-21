@@ -88,9 +88,9 @@ class PlayerPage extends Component {
         var list = self.state.songs;
         if (result) {
           list = result['list'];
-      }
-      self.setState({songs: list});
-    });
+        }
+        self.setState({songs: list});
+      });
     } else {
       this.setState({secondsPassed: this.state.secondsPassed + 1});
     }

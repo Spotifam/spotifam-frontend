@@ -80,6 +80,7 @@ class SpotifamAPI {
         let response = await fetch(getqueue_url, {
             mode: "cors",
         })
+            .then(function (response) { console.log(response); return response;})
             .then(response => response.json())
             .catch(error => console.error(error));
         return response;
