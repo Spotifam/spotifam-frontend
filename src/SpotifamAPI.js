@@ -109,14 +109,18 @@ class SpotifamAPI {
 
     async updateQueue (queue) {
         var addsong_url = BASE_URL + "/updatequeue/";
-        var data = new FormData();
-        data.append("queue", JSON.stringify(queue));
-        data.append("room", this.room_code);
 
         let response = await fetch(addsong_url, {
             method: 'POST',
             mode: "cors",
-            body: data
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                queue: queue, 
+                room: this.room_code
+            }),
           });
 
         console.log(response);
