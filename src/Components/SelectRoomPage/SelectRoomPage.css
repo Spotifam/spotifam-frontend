@@ -54,13 +54,13 @@
 }
 
 #SelectRoomPage #room_code_input:focus {
-  border-color: #1DB954;
+  border-color: #1DC000;
 }
 
 #SelectRoomPage #find_room_button_active {
-  width: 80px;
-  height: 40px;
-  font-size: 1.5em;
+  width: 60px;
+  height: 35px;
+  font-size: 1.25em;
   margin-top: 10px;
   margin-right: .6em;
   background-color: #1DB954;
@@ -69,9 +69,9 @@
 }
 
 #SelectRoomPage #find_room_button_inactive {
-  width: 80px;
-  height: 40px;
-  font-size: 1.5em;
+  width: 60px;
+  height: 35px;
+  font-size: 1.25em;
   margin-top: 10px;
   margin-right: .6em;
   background-color: grey;
