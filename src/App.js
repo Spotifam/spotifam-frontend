@@ -79,12 +79,12 @@ class App extends Component {
   // when <App/> first loads, determine whether we are in mobile or desktop mode
   componentDidMount() {
     this.updateWindowDimensions();
-    window.addEventListener('resize', this.updateWindowDimensions);
+    //window.addEventListener('resize', this.updateWindowDimensions);
   }
 
   // clear dangling memory pointers
   componentWillUnmount() {
-    window.removeEventListener('resize', this.updateWindowDimensions);
+    //window.removeEventListener('resize', this.updateWindowDimensions);
   }
 
   // updates Window size so <App/> knows whether it should render in mobile or landscape

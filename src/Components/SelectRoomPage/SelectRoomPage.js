@@ -34,9 +34,10 @@ class SelectRoomPage extends Component {
 
   // gets called when a user types into the room code <input/>
   // protects against users typing too many characters into the room code
+  // upcases characters
   onInput_updateRoomCode = (e) => {
     if ((e.target.value !== this.state.roomCodeText) && (e.target.value.length <= __roomCodeLength)) {
-      this.setState({roomCodeText: e.target.value});
+      this.setState({roomCodeText: e.target.value.toUpperCase()});
     }
   }
 

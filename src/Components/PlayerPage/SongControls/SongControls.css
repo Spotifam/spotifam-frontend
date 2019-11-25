@@ -1,0 +1,49 @@
+#PlayerPage #buttons{
+    height: 100%;
+    width: 100%;
+    display: flex;
+    align-items: stretch;
+    flex-direction: row;
+  }
+  
+  #play, #next, #prev, #pause{
+    width:33.333%;
+    height: 100%;
+    border: 1px solid #2a2a2e;
+    background-color: #0c0c0d;
+    outline: none;
+    cursor: pointer;
+    margin: 0px;
+    padding: 0px;
+    opacity: .5;
+  }
+  
+  #play:hover, #next:hover, #prev:hover, #pause:hover{
+    opacity: 1;
+    transition: 150ms;
+  }
+  
+  #prev img{
+    width: 15px;
+    height: 15px;
+    filter: invert(1);
+  }
+  #next img{
+    width: 15px;
+    height: 15px;
+    -moz-transform: scale(-1, -1);
+    -o-transform: scale(-1, -1);
+    -webkit-transform: scale(-1, -1);
+    transform: scale(-1, -1);
+    filter: invert(1);
+  }
+  #play img{
+    width: 25px;
+    height: 25px;
+    filter: invert(1);
+  }
+  #pause img{
+    width: 25px;
+    height: 25px;
+    filter: invert(1);
+  }
