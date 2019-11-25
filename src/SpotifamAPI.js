@@ -14,8 +14,8 @@ import generate from "@babel/generator"
 // For production
 //var BASE_URL = "http://spotifam.com"
 
-const BASE_URL = (window.location.hostname === "localhost") ? "http://127.0.0.1:5000" : "https://api.spotifam.com";
-//const BASE_URL = "http://api.spotifam.com";
+//const BASE_URL = (window.location.hostname === "localhost") ? "http://127.0.0.1:5000" : "https://api.spotifam.com";
+const BASE_URL = "https://api.spotifam.com";
 
 class SpotifamAPI {
 
@@ -53,6 +53,7 @@ class SpotifamAPI {
           title:         song.name,
           artist:        song.artists[0].name,
           album:         song.album.name,
+          albumArt:      song.album.images[0]['url'],
           duration:      ("" + song.duration_ms),
           uri:           song.uri,
         }
@@ -98,7 +99,7 @@ class SpotifamAPI {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                song: song, 
+                song: song,
                 room: this.room_code
             }),
           });
@@ -118,7 +119,7 @@ class SpotifamAPI {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                queue: queue, 
+                queue: queue,
                 room: this.room_code
             }),
           });
