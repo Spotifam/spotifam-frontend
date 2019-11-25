@@ -60,12 +60,12 @@ class SelectRoomPage extends Component {
         <button
           id="find_room_button_active"
           onClick={this.onClick_selectRoom}>
-          Go
+          GO
         </button>
       );
     } else {
       return (
-        <button id="find_room_button_inactive">go!</button>
+        <button id="find_room_button_inactive">GO</button>
       );
     }
   }

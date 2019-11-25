@@ -423,7 +423,7 @@ class PlayerPage extends Component {
         <div id="PlayerPage">
           <div id="title_row">
             <img src="./spotifam_logo_outline.png" draggable="false" id="spotifam_title"/>
-            <h3 id="room_code_text">spotifam.com/room/{this.props.spotifamAPI.getRoomCode()}</h3>
+            <h3 id="room_code_text">Room Code: {this.props.spotifamAPI.getRoomCode()}</h3>
           </div>
 
           <div id="content_container">
@@ -433,7 +433,6 @@ class PlayerPage extends Component {
             </div>
             {this.renderQueue()}
             {/*this.renderAPIHelp()*/}
-
           </div>
           {this.renderVisualizerChoice()}
         </div>
