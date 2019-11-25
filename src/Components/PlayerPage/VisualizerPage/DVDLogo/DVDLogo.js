@@ -56,28 +56,28 @@ export default class DVDLogo extends Component {
   }
 
   calcDistance = () => {
-    if(this.direction=="NE"){
+    if(this.direction==="NE"){
       if(this.y<(window.innerWidth-200-this.x)){
         this.distance = this.y/.70710;
       }else{
         this.distance = (window.innerWidth-200-this.x)/.70710;
       }
     }
-    else if(this.direction=="SE"){
+    else if(this.direction==="SE"){
       if((window.innerWidth-200-this.x)<(400-this.y)){
         this.distance = (window.innerWidth-200-this.x)/.70710;
       }else{
         this.distance = (window.innerHeight-200-this.y)/.70710;
       }
     }
-    else if(this.direction=="SW"){
+    else if(this.direction==="SW"){
       if(this.x<(window.innerHeight-200-this.y)){
         this.distance = this.x/.70710;
       }else{
         this.distance = (window.innerHeight-200-this.y)/.70710;
       }
     }
-    else if(this.direction=="NW"){
+    else if(this.direction==="NW"){
       if(this.x<this.y){
         this.distance = this.x/.70710;
       }else{

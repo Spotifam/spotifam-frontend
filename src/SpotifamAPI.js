@@ -14,7 +14,8 @@ import generate from "@babel/generator"
 // For production
 //var BASE_URL = "http://spotifam.com"
 
-const BASE_URL = "http://127.0.0.1:5000"
+const BASE_URL = (window.location.hostname === "localhost") ? "http://127.0.0.1:5000" : "https://api.spotifam.com";
+//const BASE_URL = "http://api.spotifam.com";
 
 class SpotifamAPI {
 
@@ -63,7 +64,9 @@ class SpotifamAPI {
     async createRoom () {
         var create_room_url = BASE_URL + "/createroom?auth_tok=" + this.auth_tok;
         console.log(create_room_url);
-        let response = await fetch(create_room_url)
+        let response = await fetch(create_room_url, {
+            mode: 'cors',
+        })
             .then(response => response.json())
             .catch(error => console.error(error));
 
@@ -72,9 +75,12 @@ class SpotifamAPI {
     }
 
     // Update queue for room
-    async getQueue (self) {
+    async getQueue () {
         var getqueue_url = BASE_URL + "/getqueue/?room_code=" + this.room_code;
-        let response = await fetch(getqueue_url)
+        let response = await fetch(getqueue_url, {
+            mode: "cors",
+        })
+            .then(function (response) { console.log(response); return response;})
             .then(response => response.json())
             .catch(error => console.error(error));
         return response;
@@ -83,13 +89,18 @@ class SpotifamAPI {
     // song object is of same format as from parseSong()
     async addSong (song) {
         var addsong_url = BASE_URL + "/addsong/";
-        var data = new FormData();
-        data.append("song", JSON.stringify(song));
-        data.append("room", this.room_code);
 
         let response = await fetch(addsong_url, {
             method: 'POST',
-            body: data
+            mode: "cors",
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                song: song, 
+                room: this.room_code
+            }),
           });
 
         console.log(response);
@@ -98,13 +109,18 @@ class SpotifamAPI {
 
     async updateQueue (queue) {
         var addsong_url = BASE_URL + "/updatequeue/";
-        var data = new FormData();
-        data.append("queue", JSON.stringify(queue));
-        data.append("room", this.room_code);
 
         let response = await fetch(addsong_url, {
             method: 'POST',
-            body: data
+            mode: "cors",
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                queue: queue, 
+                room: this.room_code
+            }),
           });
 
         console.log(response);
@@ -117,7 +133,9 @@ class SpotifamAPI {
           code = roomCode;
         }
         var search_url = BASE_URL + "/search?query=" + query + "&room=" + code;
-        let response = await fetch(search_url)
+        let response = await fetch(search_url, {
+            mode: 'cors',
+        })
             .then(response => response.json())
             .catch(error => console.error(error));
 
@@ -127,7 +145,9 @@ class SpotifamAPI {
 
     async checkIfRoomExists (roomCode) {
       var room_url = BASE_URL + "/checkroom?room=" + roomCode;
-      let response = await fetch(room_url)
+      let response = await fetch(room_url, {
+            mode: 'cors',
+        })
           .then(response => response.json())
           .catch(error => console.error(error));
 

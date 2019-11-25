@@ -19,11 +19,12 @@ import './PlayerPage.css';
 import Queue from './Queue/Queue.js';
 import { throwStatement } from '@babel/types';
 import VisualizerPage from './VisualizerPage/VisualizerPage.js';
+import SongControls from './SongControls/SongControls';
 
 
 // constants -------------------------------------------------------------------
 
-const __refreshLimit = 3; // for how often to refresh spotify info (in seconds)
+const __refreshLimit = 1; // for how often to refresh spotify info (in seconds)
 
 // TODO: remove this and make it actually represent the queue
 const __songs =  [
@@ -38,6 +39,7 @@ class PlayerPage extends Component {
     super();
     props.spotifamAPI.createRoom();
     this.state = {
+      paused_by_user: true,
       current_device_id: "",
       current_song: 0,
       songs: __songs,
@@ -83,14 +85,15 @@ class PlayerPage extends Component {
       this.api_getSongDetails();
       this.api_setDevice();
       this.setState({secondsPassed: 0});
+      this.api_handleAutoPlay();
       var self = this;
       this.props.spotifamAPI.getQueue().then(function (result) {
-      var list = []
-      if (result) {
-        list = result['list'];
-      }
-      self.setState({songs: list});
-    });
+        var list = self.state.songs;
+        if (result) {
+          list = result['list'];
+        }
+        self.setState({songs: list});
+      });
     } else {
       this.setState({secondsPassed: this.state.secondsPassed + 1});
     }
@@ -137,7 +140,6 @@ class PlayerPage extends Component {
 
       // TODO: remove this console.log
       console.log(response.is_playing);
-
       this.setState({
         nowPlaying: {
           name: response.item.name,
@@ -180,12 +182,14 @@ class PlayerPage extends Component {
     }).catch(function(err) {
       console.log(err);
     });
+    this.setState({paused_by_user: false});
   }
 
 
   // pauses playback
   api_pauseSong = () => {
     this.props.spotifyAPI.pause();
+    this.setState({paused_by_user: true});
   }
 
   // skips a song
@@ -237,6 +241,19 @@ class PlayerPage extends Component {
     this.props.spotifyAPI.getMyDevices().then(function (result) {
       if (result.devices) {
         self.setState({current_device_id: result.devices[0].id});
+      }
+    });
+  }
+
+  api_handleAutoPlay = () => {
+    var self = this;
+    this.props.spotifyAPI.getMyCurrentPlaybackState()
+    .then((response) => {
+      if (this.state.songs.length !== 0) {
+        //var total_time = self.state.songs[this.state.current_song].duration;
+        if (response.is_playing === false & this.state.paused_by_user === false) {
+          self.api_goToNextSong();
+        }
       }
     });
   }
@@ -293,7 +310,6 @@ class PlayerPage extends Component {
   renderQueue = () => {
     return (
       <div id="queue_container">
-        <p>queue goes here</p>
         <Queue
           current_song={this.state.current_song}
           songs={this.state.songs}
@@ -332,7 +348,7 @@ class PlayerPage extends Component {
             No song is currently playing.
           </div>
           <div id="song_details_button" style={{'paddingTop': "1em"}}>
-            <button onClick={() => this.api_getSongDetails()}>Get current song info</button>
+            {/*<button onClick={() => this.api_getSongDetails()}>Get current song info</button>*/}
           </div>
         </div>
       );
@@ -341,29 +357,18 @@ class PlayerPage extends Component {
 
   // renders component that user interacts with to play/pause/skip
   renderSongControls = () => {
-    if(this.state.songPlaying) {
-      return (
-        <div id="song_controls_container" style={{'display': 'flex', 'justifyContent': 'center', 'alignItems': 'center'}}>
-          <div id="buttons">
-              <button id="prev" onClick={() => this.api_goToPrevSong()}><img src="back.png" height= "55" width="55"/></button>
-              <button id="pause" onClick={() => this.api_pauseSong()}><img src="pause.png" height="55" width="55"/></button>
-              <button id="next" onClick={() => this.api_goToNextSong()}><img src="back.png" height="55" width="55"/></button>
-          </div>
-        </div>
-       );
-    }
-    else
-    {
-      return (
-      <div id="song_controls_container" style={{'display': 'flex', 'justifyContent': 'center', 'alignItems': 'center'}}>
-        <div id="buttons">
-            <button id="prev" onClick={() => this.api_goToPrevSong()}><img src="back.png" height= "55" width="55"/></button>
-            <button id="play" onClick={() => this.api_playSong(this.state.songs[this.state.current_song].uri)}><img src="play.png" height="55" width="55"/></button>
-            <button id="next" onClick={() => this.api_goToNextSong()}><img src="back.png" height="55" width="55"/></button>
-        </div>
+    return (
+      <div id="song_controls_container">
+        <SongControls
+          prev={this.api_goToPrevSong}
+          next={this.api_goToNextSong}
+          pause={this.api_pauseSong}
+          play={this.api_playSong}
+          song_is_playing={this.state.songPlaying}
+          current_song_uri={(this.state.songs.length === 0) ? "" : this.state.songs[this.state.current_song].uri}
+        />
       </div>
     );
-    }
 
   }
 
@@ -404,35 +409,24 @@ class PlayerPage extends Component {
 
   // Renders <PlayerPage/>
   render() {
-
-    if(this.state.visualizerPage == true){
-      return(
-        <div id="content_container">
-          <VisualizerPage 
-              spotifyAPI={this.props.spotifyAPI}
-              spotifamAPI={this.props.spotifamAPI}/>
+    return (
+      <div id="PlayerPage">
+        <div id="title_row">
+          <img src="./spotifam_logo_outline.png" draggable="false" id="spotifam_title"/>
+          <h3 id="room_code_text">spotifam.com/room/{this.props.spotifamAPI.getRoomCode()}</h3>
         </div>
-      ); 
-    }
-    else{
-      return (
-        <div id="PlayerPage">
-          <div id="title_row">
-            <img src="./spotifam_logo_outline.png" draggable="false" id="spotifam_title"/>
-            <h3 id="room_code_text">spotifam.casa/room/{this.props.spotifamAPI.getRoomCode()}</h3>
-          </div>
 
-          <div id="content_container">
+        <div id="content_container">
+          <div id="container_left">
             {this.renderSongDetails()}
             {this.renderSongControls()}
-            {this.renderQueue()}
-            {this.renderVisualizerChoice()}
-            {this.renderAPIHelp()}
           </div>
-
+          {this.renderQueue()}
+          {/*this.renderAPIHelp()*/}
         </div>
-      );
-    }
+
+      </div>
+    );
   }
 }
 

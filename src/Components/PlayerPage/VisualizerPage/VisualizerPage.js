@@ -29,7 +29,7 @@ class VisualizerPage extends Component {
 
   // Renders <VisualizerPage/>
   render() {
-    if(this.state.viz == 1){
+    if(this.state.viz === 1){
       return(
         <div>
             <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.9.0/p5.js"></script>
