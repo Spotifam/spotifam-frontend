@@ -37,7 +37,7 @@ class LandingPage extends Component {
           </div>
           <div class="contents">
             <h1>Control your music as a group.</h1>
-            <p>Create a song queue that everyone can use.</p>
+            <p>Pussy</p>
             <button onClick={this.props.onClick_loginToSpotify}>LOGIN TO SPOTIFY</button>    
           </div>
 

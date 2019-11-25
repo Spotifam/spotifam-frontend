@@ -140,6 +140,10 @@ class PlayerPage extends Component {
 
       // TODO: remove this console.log
       console.log(response.is_playing);
+      console.log('----');
+      console.log(response);
+      console.log('----');
+      
       this.setState({
         nowPlaying: {
           name: response.item.name,
@@ -409,24 +413,34 @@ class PlayerPage extends Component {
 
   // Renders <PlayerPage/>
   render() {
-    return (
-      <div id="PlayerPage">
-        <div id="title_row">
-          <img src="./spotifam_logo_outline.png" draggable="false" id="spotifam_title"/>
-          <h3 id="room_code_text">spotifam.com/room/{this.props.spotifamAPI.getRoomCode()}</h3>
-        </div>
+    if(this.state.visualizerPage === true){
+      return (
+        <VisualizerPage
 
-        <div id="content_container">
-          <div id="container_left">
-            {this.renderSongDetails()}
-            {this.renderSongControls()}
+        />
+      );
+    }
+    else{
+      return (
+        <div id="PlayerPage">
+          <div id="title_row">
+            <img src="./spotifam_logo_outline.png" draggable="false" id="spotifam_title"/>
+            <h3 id="room_code_text">spotifam.com/room/{this.props.spotifamAPI.getRoomCode()}</h3>
           </div>
-          {this.renderQueue()}
-          {/*this.renderAPIHelp()*/}
-        </div>
 
-      </div>
-    );
+          <div id="content_container">
+            <div id="container_left">
+              {this.renderSongDetails()}
+              {this.renderSongControls()}
+            </div>
+            {this.renderQueue()}
+            {/*this.renderAPIHelp()*/}
+
+          </div>
+          {this.renderVisualizerChoice()}
+        </div>
+      );
+    }
   }
 }
 
