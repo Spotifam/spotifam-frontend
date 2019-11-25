@@ -415,9 +415,7 @@ class PlayerPage extends Component {
   render() {
     if(this.state.visualizerPage === true){
       return (
-        <VisualizerPage
-
-        />
+        <VisualizerPage/>
       );
     }
     else{
