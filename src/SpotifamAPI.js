@@ -53,6 +53,7 @@ class SpotifamAPI {
           title:         song.name,
           artist:        song.artists[0].name,
           album:         song.album.name,
+          albumArt:      song.album.images[0]['url'],
           duration:      ("" + song.duration_ms),
           uri:           song.uri,
         }

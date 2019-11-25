@@ -68,7 +68,9 @@ class MobileRoom extends Component {
     for (let i = 0; i < searchResults.length && this.state.searchText !== ""; i++) {
       songsToRender.push(
         <div className="song_row" onClick={() => this.onClick_addSongToRoom(searchResults[i])}>
-          <div className="song_album_art_container"></div>
+          <div className="song_album_art_container">
+            <img className="song_album_art" src={searchResults[i]['albumArt']}/>
+          </div>
           <div className="song_text_container">
             <h3 className="song_title">{searchResults[i]['title']}</h3>
             <div className="song_album_and_artist_container">
