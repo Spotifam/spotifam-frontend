@@ -22,7 +22,8 @@ class MobileRoom extends Component {
 
     this.state = {
       searchText: "",
-      searchResults: {}
+      searchResults: [],
+      searchActive: false
     }
   }
 
@@ -31,28 +32,98 @@ class MobileRoom extends Component {
   onInput_updateSearchText = (e) => {
     if (e.target.value !== this.state.searchText) {
       this.setState({searchText: e.target.value});
+      this.onClick_performSearch();
     }
   }
 
   onClick_performSearch = () => {
     this.props.spotifamAPI.search(this.state.searchText, this.props.roomCode).then(result => {
-      return this.props.spotifamAPI.parseSong(result.tracks.items[0]);
+      let songs = [];
+      if (result !== undefined) {
+        for (let i = 0; i < result.tracks.items.length && i < 5; i++) {
+          songs.push(this.props.spotifamAPI.parseSong(result.tracks.items[i]));
+        }
+        this.setState({searchResults: songs});
+        return songs;
+      }
+
     }).then(result => {
-      this.props.spotifamAPI.addSong(result);
+      console.log(result);
+      //this.props.spotifamAPI.addSong(result);
     })
-    this.setState({searchText: ""});
+    //this.setState({searchText: ""});
+  }
+
+  onClick_addSongToRoom = (song) => {
+    this.props.spotifamAPI.addSong(song);
+    this.setState({searchResults: [], searchText: ""});
   }
 
 
   // render --------------------------------------------------------------------
 
+  renderSearchResults = () => {
+    let searchResults = this.state.searchResults;
+    let songsToRender = [];
+    for (let i = 0; i < searchResults.length && this.state.searchText !== ""; i++) {
+      songsToRender.push(
+        <div className="song_row" onClick={() => this.onClick_addSongToRoom(searchResults[i])}>
+          <div className="song_album_art_container"></div>
+          <div className="song_text_container">
+            <h3 className="song_title">{searchResults[i]['title']}</h3>
+            <div className="song_album_and_artist_container">
+              <p className="song_text">{searchResults[i]['album']}</p>
+              <div className="dot"></div>
+              <p className="song_text">{searchResults[i]['artist']}</p>
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    if (this.state.searchText !== "" && songsToRender.length === 0) {
+      return (
+        <div id="search_results_container">
+          <p>No results found</p>
+        </div>
+      );
+    } else {
+      return (
+        <div id="search_results_container">
+          {songsToRender}
+        </div>
+      );
+    }
+
+  }
+
+
+  renderSearchBar = () => {
+
+    if (this.state.searchActive) {
+      return (
+        <input
+          id="search_input"
+          value={this.state.searchText}
+          onChange={this.onInput_updateSearchText.bind(this)}
+        />
+      );
+    } else {
+      return (
+        <button id="search_button" onClick={() => this.setState({searchActive: true})}>
+          Search
+        </button>
+      );
+    }
+
+  }
+
   // Renders <MobileRoom/>
   render() {
     return (
       <div id="MobileRoom">
-        <h1>Search</h1>
-        <input onChange={this.onInput_updateSearchText.bind(this)} value={this.state.searchText}/>
-        <button onClick={this.onClick_performSearch}>Search</button>
+        {this.renderSearchBar()}
+        {this.renderSearchResults()}
       </div>
     );
   }
