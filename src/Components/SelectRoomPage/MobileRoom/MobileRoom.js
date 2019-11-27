@@ -55,8 +55,32 @@ class MobileRoom extends Component {
   }
 
   onClick_addSongToRoom = (song) => {
-    this.props.spotifamAPI.addSong(song);
-    this.setState({searchResults: [], searchText: "", searchActive: false});
+    //do a confirmation popup for the user
+    //add x to queue? and then a confirmation button
+    Popup.create({
+      title: null,
+      context: 'Want to add  ?',
+      buttons:{
+        left: [{
+          text:'Cancel',
+          className:'danger',
+          action: function(){
+            //just close out the popup window
+            Popup.close();
+          }
+        }],
+        right: [{
+          text:'Yes',
+          className: 'success',
+          action: function(){
+            this.props.spotifamAPI.addSong(song);
+            this.setState({searchResults: [], searchText: "", searchActive: false});
+
+            Popup.close();
+          }
+        }]
+      }
+    })
   }
 
 
