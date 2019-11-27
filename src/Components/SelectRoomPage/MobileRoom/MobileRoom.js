@@ -57,6 +57,7 @@ class MobileRoom extends Component {
   onClick_addSongToRoom = (song) => {
     this.props.spotifamAPI.addSong(song);
     this.setState({searchResults: [], searchText: "", searchActive: false});
+    alert("song added to queue");
   }
 
 
