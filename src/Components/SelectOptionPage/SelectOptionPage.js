@@ -38,7 +38,7 @@ class SelectOptionPage extends Component {
           />
       );
     } else if(this.state.option === 2) {
-
+      return("This page is currently under construction");
 
     }else { //nothing selected
       
