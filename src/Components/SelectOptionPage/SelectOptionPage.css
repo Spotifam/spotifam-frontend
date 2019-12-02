@@ -1,0 +1,59 @@
+#SelectOptionPage {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: white;
+}
+
+#SelectOptionPage #content_container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #c9c9c9;
+  padding: 10px 40px 40px 40px;
+}
+
+#SelectOptionPage #logo {
+  width: 300px;
+}
+
+#SelectOptionPage #title {
+  margin: 0px 0px 20px 0px;
+  font-size: 2.7em;
+  border-bottom: 1px solid white;
+}
+
+#SelectOptionPage .text {
+  margin: 0px;
+  font-size: 1.5em;
+  font-family: filicudi-solid, sans-serif;
+  font-style: normal;
+  font-weight: 400;
+}
+
+#SelectOptionPage .italics_text {
+  font-family: fira-sans-compressed-2, sans-serif;
+  font-weight: 700;
+  font-style: italic;
+  font-size: .9em;
+  margin: 3px;
+}
+
+
+
+#SelectOptionPage #select_button {
+  width: 90px;
+  height: 35px;
+  font-size: 1.25em;
+  margin-top: 10px;
+  margin-right: .6em;
+  background-color: #1DB954;
+  border: none;
+  color: black;
+}
+
+

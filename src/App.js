@@ -10,7 +10,8 @@
   Child Components
     - LandingPage:        initial page user sees when they come to the website
     - PlayerPage:         page user sees when they are listening to music
-    - SelectRoomPage:     page for mobile users to select a room
+    - SelectOptionPage:   page for mobile users to select whether to join or create a room
+            - SelectRoomPage:     page for mobile users to select a room
     - RoomPage:           page where users can add songs to the room's queue
 */
 
@@ -30,7 +31,7 @@ import {
 // components
 import LandingPage from './Components/LandingPage/LandingPage.js';
 import PlayerPage from './Components/PlayerPage/PlayerPage.js';
-import SelectRoomPage from './Components/SelectRoomPage/SelectRoomPage.js';
+import SelectOptionPage from './Components/SelectOptionPage/SelectOptionPage.js';
 import RoomPage from './Components/RoomPage/RoomPage.js';
 
 
@@ -132,8 +133,9 @@ class App extends Component {
      if (this.bool_renderMobile()) {
 
        // mobile user will need to select a room
+       console.log("CHECKPOINT: MOBILE")
        return (
-         <SelectRoomPage
+         <SelectOptionPage
            spotifamAPI={spotifamAPI}
          />
        );
@@ -149,7 +151,7 @@ class App extends Component {
            />
          );
         } else {
-
+          console.log("CHECKPOINT: DESKTOP")
           // desktop user isn't logged in so render the landing page
           return (
             <LandingPage
