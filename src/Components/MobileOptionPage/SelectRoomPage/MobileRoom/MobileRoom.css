@@ -3,6 +3,8 @@
   width: 100%;
   display: flex;
   flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
 }
 
 #MobileRoom #search_results_container {
@@ -85,12 +87,25 @@
 }
 
 #MobileRoom #search_input {
-  width: 100%;
-  background-color: #3f3f3f;
-  color: white;
+  width: calc(100% - 80px);
+  margin-top: 10px;
+  background-color: #ffffff;
+  border-radius: 3px;
+  color: #2d2d2c;
   padding: 20px;
-  align-items: center;
-  justify-content: center;
   border: none;
   font-size: 1.2em;
+}
+
+#MobileRoom #search_title {
+  width: calc(100% - 40px);
+  color: #ffffff;
+  margin-top: 10px;
+  
+  text-align: left;
+  font-size: 50px;
+  font-family: fira-sans;
+  font-style: normal;
+  font-weight: 400;
+  font-kerning: 1px;
 }

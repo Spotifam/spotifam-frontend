@@ -57,7 +57,7 @@ class MobileRoom extends Component {
   onClick_addSongToRoom = (song) => {
     this.props.spotifamAPI.addSong(song);
     this.setState({searchResults: [], searchText: "", searchActive: false});
-    alert("song added to queue");
+    alert("Song added to queue!");
   }
 
 
@@ -103,28 +103,22 @@ class MobileRoom extends Component {
 
   renderSearchBar = () => {
 
-    if (this.state.searchActive) {
       return (
         <input
           id="search_input"
           value={this.state.searchText}
           onChange={this.onInput_updateSearchText.bind(this)}
+          placeholder="Artists, songs, or albums"
         />
       );
-    } else {
-      return (
-        <button id="search_button" onClick={() => this.setState({searchActive: true})}>
-          Search
-        </button>
-      );
-    }
-
+    
   }
 
   // Renders <MobileRoom/>
   render() {
     return (
       <div id="MobileRoom">
+        <div id="search_title">Search</div>
         {this.renderSearchBar()}
         {this.renderSearchResults()}
       </div>
