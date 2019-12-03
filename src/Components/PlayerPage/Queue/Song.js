@@ -101,10 +101,10 @@ function Song (props) {
       id={props.id}
       className={props.current}
     >
-      <td>{ props.song.title    }</td>
-      <td>{ props.song.artist   }</td>
-      <td>{ props.song.album    }</td>
-      <td>{ time }</td> {/* ms to mins:secs*/}
+      <td className="title">{ props.song.title }</td>
+      <td>{ props.song.artist }</td>
+      <td>{ props.song.album }</td>
+      <td className="duration">{ time }</td> {/* ms to mins:secs*/}
 
       {/* 
           DROPZONE EXPLANATION:

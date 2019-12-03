@@ -12,6 +12,8 @@
 
   border-bottom: 1px solid #2a2a2e;
   text-align: left;
+  text-overflow: ellipsis;
+  word-break: keep-all;
 
   -webkit-user-select: none; /* Safari */        
   -moz-user-select: none; /* Firefox */
@@ -20,17 +22,28 @@
 }
 
 #Queue td  {
-  max-width: 25%;
+  max-width: 0;
   padding: 10px;
   white-space: nowrap;
   overflow: hidden;
+  word-break: keep-all;
 
   background-color: #0c0c0d;
   
   letter-spacing: .1px;
   font-size: 13px;
   font-weight: bold;
+  text-overflow: ellipsis;
 }
+
+#Queue td.title {
+  width: 30%;
+}
+
+#Queue td.duration {
+  width: 10%;
+}
+
 
 /*
  *  SONG INTERACTION STYLING (ROW)
