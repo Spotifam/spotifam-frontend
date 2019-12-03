@@ -394,7 +394,7 @@ class PlayerPage extends Component {
   renderVisualizerChoice = () =>{
     return (
         <div>
-          <button id="dvd" onClick={() => this.setState({visualizerPage: true})}>VISUALIZERS</button>
+          <button class="vizButtons" id="dvd" onClick={() => this.setState({visualizerPage: true})}>Visualizers</button>
         </div>
       );
   }
@@ -448,7 +448,9 @@ class PlayerPage extends Component {
     } else {
       if(this.state.visualizerPage === true){
         return (
-          <VisualizerPage/>
+          <VisualizerPage
+            spotifyAPI={this.spotifyAPI}
+          />
         );
       }
       else{

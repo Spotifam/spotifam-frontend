@@ -1,0 +1,23 @@
+#viz-title {
+    text-align: center;
+    vertical-align: middle;
+}
+
+.vizButtons {
+    padding-left: 2em;
+    padding-right: 2em;
+}
+
+
+.vizButtons{
+    background-color: darkGreen; /* Green */
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    margin: 15px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    border-radius: 10px;
+  }

@@ -15,7 +15,6 @@
 import React, { Component } from 'react';
 import './VisualizerPage.css';
 import DVDLogo from './DVDLogo/DVDLogo.js';
-import SynthViz from './SynthViz/synthViz.js';
 
 class VisualizerPage extends Component {
 
@@ -40,22 +39,12 @@ class VisualizerPage extends Component {
         </div>
       );
     }
-    else if(this.state.viz === 2){
-      return(
-        <div>
-            <SynthViz
-              spotifyAPI={this.props.spotifyAPI}
-            />
-        </div>
-      );
-    }
     else{
       return (
         <div id="VisualizerPage">
-          <h1 id="viz-title">Music Visualizers</h1>
+          <h1>viz page</h1>
           <div>
-            <button id="synth" class="vizButtons" onClick={() => this.setState({viz: 2})}>Synthwave Visualizer</button>
-            <button id="dvd" class="vizButtons" onClick={() => this.setState({viz: 1})}>DVD Logo Visualizer</button>
+            <button id="dvd" onClick={() => this.setState({viz: 1})}>DVD Logo Visualizer</button>
           </div>
         </div>
       );
