@@ -338,7 +338,7 @@ class PlayerPage extends Component {
       return (
         <div id="song_details_container" style={{'display': 'flex', 'flex-direction': 'column', 'justifyContent': 'center', 'alignItems': 'center'}}>
           <div>
-            <img src={this.state.nowPlaying.albumArt} style={{ height: 300 }}/>
+            <img id="song_details_album_art" src={this.state.nowPlaying.albumArt} />
           </div>
           <div id="song_details_text" style={{'paddingTop': "1em"}}>
             <div id="song_details_song">

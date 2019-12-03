@@ -46,6 +46,7 @@
   flex-direction: column;
   width: 30%;
   height: 100%;
+  overflow: hidden;
 
 }
 
@@ -55,6 +56,15 @@
   width: 100%;
   height: 100%;
   flex-grow: 1;
+}
+
+#PlayerPage #song_details_album_art {
+  width: 90%;
+  height: auto;
+}
+
+#PlayerPage #song_details_text {
+  overflow: hidden;
 }
 
 #PlayerPage #song_controls_container {
