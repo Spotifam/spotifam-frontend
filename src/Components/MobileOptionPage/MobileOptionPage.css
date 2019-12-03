@@ -1,4 +1,4 @@
-#SelectOptionPage {
+#MobileOptionPage {
   height: 100%;
   width: 100%;
   display: flex;
@@ -8,7 +8,7 @@
   color: white;
 }
 
-#SelectOptionPage #content_container {
+#MobileOptionPage #content_container {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -17,17 +17,17 @@
   padding: 10px 40px 40px 40px;
 }
 
-#SelectOptionPage #logo {
+#MobileOptionPage #logo {
   width: 300px;
 }
 
-#SelectOptionPage #title {
+#MobileOptionPage #title {
   margin: 0px 0px 20px 0px;
   font-size: 2.7em;
   border-bottom: 1px solid white;
 }
 
-#SelectOptionPage .text {
+#MobileOptionPage .text {
   margin: 0px;
   font-size: 1.5em;
   font-family: filicudi-solid, sans-serif;
@@ -35,7 +35,7 @@
   font-weight: 400;
 }
 
-#SelectOptionPage .italics_text {
+#MobileOptionPage .italics_text {
   font-family: fira-sans-compressed-2, sans-serif;
   font-weight: 700;
   font-style: italic;
@@ -45,7 +45,7 @@
 
 
 
-#SelectOptionPage #select_button {
+#MobileOptionPage #select_button {
   width: 90px;
   height: 35px;
   font-size: 1.25em;
