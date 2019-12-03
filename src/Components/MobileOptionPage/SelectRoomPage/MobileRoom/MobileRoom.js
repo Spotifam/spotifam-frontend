@@ -32,12 +32,12 @@ class MobileRoom extends Component {
   onInput_updateSearchText = (e) => {
     if (e.target.value !== this.state.searchText) {
       this.setState({searchText: e.target.value});
-      this.onClick_performSearch();
+      this.onClick_performSearch(e.target.value);
     }
   }
 
-  onClick_performSearch = () => {
-    this.props.spotifamAPI.search(this.state.searchText, this.props.roomCode).then(result => {
+  onClick_performSearch = (searchText) => {
+    this.props.spotifamAPI.search(searchText, this.props.roomCode).then(result => {
       let songs = [];
       if (result !== undefined) {
         for (let i = 0; i < result.tracks.items.length && i < 5; i++) {
