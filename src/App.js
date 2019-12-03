@@ -118,7 +118,6 @@ class App extends Component {
   /*
      onClick and onInput functions that modify App.state
   */
-
   onClick_loginToSpotify = () => {
     //window.open('http://localhost:8888', "_self");
     window.open('http://auth.spotifam.com', "_self");
@@ -131,9 +130,14 @@ class App extends Component {
   //  - MOBILE    ->   [findRoom]
   renderEmptyRoutePage = () => {
      if (this.bool_renderMobile()) {
-        alert("login: " + this.state.userLoggedIn)
         if(this.state.userLoggedIn) {
-          return("user logged in suck a peen")
+          return(
+            <PlayerPage
+              isMobile={this.bool_renderMobile()}
+              spotifyAPI={spotifyAPI}
+              spotifamAPI={spotifamAPI}
+            />
+          );
         }
         // mobile user will need to select a room
         else {
@@ -150,6 +154,7 @@ class App extends Component {
          // desktop user is logged in, so we want to render the webplayer
          return (
            <PlayerPage
+             isMobile={this.bool_renderMobile()}
              spotifyAPI={spotifyAPI}
              spotifamAPI={spotifamAPI}
            />
@@ -165,7 +170,7 @@ class App extends Component {
      }
   }
 
-  // renders the room page for users who want to access the queue via a room
+  // renders the room page for users who want to access the via a room
   renderRoomPage = () => {
     return (
       <RoomPage/>

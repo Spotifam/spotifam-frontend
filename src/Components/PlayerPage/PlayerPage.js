@@ -16,10 +16,12 @@
 
 import React, { Component } from 'react';
 import './PlayerPage.css';
+import "./MobilePlayerPage.css";
 import Queue from './Queue/Queue.js';
 import { throwStatement } from '@babel/types';
 import VisualizerPage from './VisualizerPage/VisualizerPage.js';
 import SongControls from './SongControls/SongControls';
+import MobileSongDetails from './MobileSongDetails/MobileSongDetails.js';
 
 
 // constants -------------------------------------------------------------------
@@ -336,7 +338,7 @@ class PlayerPage extends Component {
   renderSongDetails = () => {
     if (this.state.nowPlaying.name != ''){
       return (
-        <div id="song_details_container" style={{'display': 'flex', 'flex-direction': 'column', 'justifyContent': 'center', 'alignItems': 'center'}}>
+        <div id="song_details_container" style={{'display': 'flex', 'flexDirection': 'column', 'justifyContent': 'center', 'alignItems': 'center'}}>
           <div>
             <img id="song_details_album_art" src={this.state.nowPlaying.albumArt} />
           </div>
@@ -352,7 +354,7 @@ class PlayerPage extends Component {
       );
     } else{
       return (
-        <div id="song_details_container" style={{'display': 'flex', 'flex-direction': 'column', 'justifyContent': 'center', 'alignItems': 'center'}}>
+        <div id="song_details_container" style={{'display': 'flex', 'flexDirection': 'column', 'justifyContent': 'center', 'alignItems': 'center'}}>
           <div id="song_details_song">
             No song is currently playing.
           </div>
@@ -364,11 +366,20 @@ class PlayerPage extends Component {
     }
   }
 
+  renderMobileSongDetails = () => {
+    return (
+      <MobileSongDetails
+        nowPlaying={this.state.nowPlaying}
+      />
+    );
+  }
+
   // renders component that user interacts with to play/pause/skip
   renderSongControls = () => {
     return (
-      <div id="song_controls_container">
+      
         <SongControls
+          isMobile={this.props.isMobile}
           prev={this.api_goToPrevSong}
           next={this.api_goToNextSong}
           pause={this.api_pauseSong}
@@ -376,7 +387,6 @@ class PlayerPage extends Component {
           song_is_playing={this.state.songPlaying}
           current_song_uri={(this.state.songs.length === 0) ? "" : this.state.songs[this.state.current_song].uri}
         />
-      </div>
     );
 
   }
@@ -418,30 +428,48 @@ class PlayerPage extends Component {
 
   // Renders <PlayerPage/>
   render() {
-    if(this.state.visualizerPage === true){
-      return (
-        <VisualizerPage/>
-      );
-    }
-    else{
-      return (
-        <div id="PlayerPage">
-          <div id="title_row">
-            <img src="./spotifam_logo_outline.png" draggable="false" id="spotifam_title"/>
-            <h3 id="room_code_text">Room Code: {this.props.spotifamAPI.getRoomCode()}</h3>
-          </div>
-
-          <div id="content_container">
-            <div id="container_left">
+    if(this.props.isMobile) {
+      return(
+        <div id="MobilePlayerPage">
+          <div id="mobile_song_content">
+            <div id="mobile_currsong_container">
               {this.renderSongDetails()}
-              {this.renderSongControls()}
             </div>
-            {this.renderQueue()}
-            {/*this.renderAPIHelp()*/}
           </div>
-          {this.renderVisualizerChoice()}
+          <div id="mobile_controls_container">
+            {this.renderSongControls()}
+          </div>
         </div>
+
       );
+    } else {
+      if(this.state.visualizerPage === true){
+        return (
+          <VisualizerPage/>
+        );
+      }
+      else{
+        return (
+          <div id="PlayerPage">
+            <div id="title_row">
+              <img src="./spotifam_logo_outline.png" draggable="false" id="spotifam_title"/>
+              <h3 id="room_code_text">Room Code: {this.props.spotifamAPI.getRoomCode()}</h3>
+            </div>
+
+            <div id="content_container">
+              <div id="container_left">
+                {this.renderSongDetails()}
+                <div id="song_controls_container">
+                  {this.renderSongControls()}
+                </div>
+              </div>
+              {this.renderQueue()}
+              {/*this.renderAPIHelp()*/}
+            </div>
+            {this.renderVisualizerChoice()}
+          </div>
+        );
+      }
     }
   }
 }

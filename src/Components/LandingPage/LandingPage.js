@@ -32,10 +32,10 @@ class LandingPage extends Component {
     return (
       <div id="LandingPage">
 
-          <div class="topnav">
+          <div className="topnav">
             <img draggable="false" src="./spotifam_logo.png"/>
           </div>
-          <div class="contents">
+          <div className="contents">
             <h1>Control your music as a group.</h1>
             <p>Create a song queue that everyone can use.</p>
             <button onClick={this.props.onClick_loginToSpotify}>LOGIN TO SPOTIFY</button>    

@@ -87,7 +87,7 @@ class SelectRoomPage extends Component {
               onChange={this.onInput_updateRoomCode.bind(this)}
             />
 
-            <div style={{'width': '100%', 'display': 'flex', 'justify-content': 'flex-end'}}>
+            <div style={{'width': '100%', 'display': 'flex', 'justifyContent': 'flex-end'}}>
               {this.renderSearchButton()}
             </div>
           </div>
