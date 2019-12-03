@@ -148,7 +148,8 @@ class PlayerPage extends Component {
         nowPlaying: {
           name: response.item.name,
           artist: response.item.artists[0].name,
-          albumArt: response.item.album.images[0].url
+          albumArt: response.item.album.images[0].url,
+          uri: response.item.uri
         },
         songPlaying: response.is_playing
       });
@@ -180,12 +181,13 @@ class PlayerPage extends Component {
       playObject["device_id"] = this.state.current_device_id; 
     }
 
-    this.props.spotifyAPI.play(playObject)
-    .then((response) => {
-      console.log(response)
-    }).catch(function(err) {
-      console.log(err);
-    });
+    // Handle resuming from last pause
+    if (playObject.uris[0] === this.state.nowPlaying.uri | this.state.songs.length === 0) {
+      this.props.spotifyAPI.play();
+    } else {
+      this.props.spotifyAPI.play(playObject);
+    }
+    
     this.setState({paused_by_user: false});
   }
 
