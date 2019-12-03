@@ -32,17 +32,19 @@ class MobileSongDetails extends Component {
   render() {
     if (this.props.nowPlaying.name != ''){
       return (
-        <div>
-          <div>
-            <img src={this.props.nowPlaying.albumArt} style={{ height: 300 }}/>
-          </div>
-          <div id="song_details_text" style={{'paddingTop': "1em"}}>
-            <div id="song_details_song">
-              { this.props.nowPlaying.name }
+        <div id="MobileSongDetails">
+          <p id="nowPlaying">Now Playing</p>
+          <div id="currsong_container">
+            <div id="image_container">
+              <img src={this.props.nowPlaying.albumArt} id="album_art" />
             </div>
-            <div id="song_details_artist">
-              {this.props.nowPlaying.artist}
+
+            <div id="detail_container" >
+              <div id="song_name"> { this.props.nowPlaying.name }</div>
+              <div id="song_artist"> {this.props.nowPlaying.artist} </div>
+              
             </div>
+
           </div>
         </div>
       );

@@ -431,9 +431,12 @@ class PlayerPage extends Component {
     if(this.props.isMobile) {
       return(
         <div id="MobilePlayerPage">
+          <div id="mobile_room_code_container">
+            <h3 id="mobile_room_code_text">Room Code: {}{this.props.spotifamAPI.getRoomCode()}</h3>
+          </div>
           <div id="mobile_song_content">
             <div id="mobile_currsong_container">
-              {this.renderSongDetails()}
+              {this.renderMobileSongDetails()}
             </div>
           </div>
           <div id="mobile_controls_container">

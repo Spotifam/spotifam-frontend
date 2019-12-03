@@ -28,3 +28,17 @@
 
 
 }
+
+#MobilePlayerPage #mobile_room_code_text {
+	font-size: 1.5em;
+  	margin: 0px;
+  	margin-left: auto;
+  	padding-right: 10px;
+}
+
+#MobilePlayerPage #mobile_room_code_container {
+	height: 5%;
+	width: 100%;
+	justify-content: right;
+	display: flex;
+}

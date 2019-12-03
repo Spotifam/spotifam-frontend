@@ -15,7 +15,7 @@
     cursor: pointer;
     margin: 0px;
     padding: 0px;
-    opacity: .5;
+    opacity: .9;
   }
   
   #play:hover, #next:hover, #prev:hover, #pause:hover{
