@@ -47,11 +47,11 @@ class PlayerPage extends Component {
       nowPlaying: {
         name: '',
         artist: '',
-        albumArt: ''
+        albumArt: '',
+        progress_ms: 0
       },
       songPlaying: false,
       secondsPassed: 0,
-
       visualizerPage: false,
     };
 
@@ -149,7 +149,8 @@ class PlayerPage extends Component {
           name: response.item.name,
           artist: response.item.artists[0].name,
           albumArt: response.item.album.images[0].url,
-          uri: response.item.uri
+          uri: response.item.uri,
+          progress_ms: response.progress_ms
         },
         songPlaying: response.is_playing
       });
@@ -215,7 +216,8 @@ class PlayerPage extends Component {
   // goes back to the last song
   api_goToPrevSong = () => {
     var curr = this.state.current_song;
-    if (this.state.current_song !== 0) {
+    
+    if (this.state.current_song !== 0 && this.state.nowPlaying.progress_ms < 5000) {
       curr--;
       this.setState({current_song: curr});
     }
