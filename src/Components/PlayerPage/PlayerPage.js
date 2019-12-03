@@ -204,10 +204,12 @@ class PlayerPage extends Component {
     if (this.state.current_song !== this.state.songs.length - 1 ) {
       curr++;
       this.setState({current_song: curr});
+    } else {
+      curr = 0;
+      this.setState({current_song: curr});
     }
-    var current_song_uri = this.state.songs[curr].uri;
-    console.log(this.state.current_song);
-    this.api_playSong(current_song_uri);
+    var current_song_uri = {"uris": [this.state.songs[curr].uri]};
+    this.props.spotifyAPI.play(current_song_uri);
   }
 
   // goes back to the last song
@@ -217,9 +219,8 @@ class PlayerPage extends Component {
       curr--;
       this.setState({current_song: curr});
     }
-    var current_song_uri = this.state.songs[curr].uri;
-    console.log(current_song_uri)
-    this.api_playSong(current_song_uri);
+    var current_song_uri = {"uris": [this.state.songs[curr].uri]};
+    this.props.spotifyAPI.play(current_song_uri);
   }
 
   // performs a search for a song
