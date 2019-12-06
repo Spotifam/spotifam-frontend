@@ -1,0 +1,17 @@
+#backButton{
+    margin: 20px;
+    position: absolute;
+    left: 0px;
+}
+
+a {
+    text-decoration: none;
+}
+
+a:active {
+    color: white;
+}
+
+a:visited {
+    color: white;
+}

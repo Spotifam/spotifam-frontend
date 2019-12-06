@@ -83,15 +83,3 @@
   height: 100%;
   border-left: 1px solid #2a2a2e;
 }
-
-#dvd{
-  background-color: darkGreen; /* Green */
-  border: none;
-  color: white;
-  padding: 15px 32px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
-  border-radius: 10px;
-}
