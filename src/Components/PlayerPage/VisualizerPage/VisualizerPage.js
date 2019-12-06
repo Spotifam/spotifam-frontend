@@ -45,6 +45,7 @@ class VisualizerPage extends Component {
         <div>
             <SynthViz
               spotifyAPI={this.props.spotifyAPI}
+              turnOffVisualizer={this.props.turnOffVisualizer}
             />
         </div>
       );

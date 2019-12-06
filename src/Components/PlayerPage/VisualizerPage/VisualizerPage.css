@@ -10,8 +10,10 @@
 
 
 .vizButtons{
-    background-color: darkGreen; /* Green */
-    border: none;
+    background-color: black; /* Green */
+    border-style: solid;
+    border-width: 1px;
+    border-color: white;
     color: white;
     padding: 15px 32px;
     margin: 15px;
@@ -20,4 +22,5 @@
     display: inline-block;
     font-size: 16px;
     border-radius: 10px;
+    cursor: pointer;
   }

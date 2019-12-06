@@ -391,10 +391,17 @@ class PlayerPage extends Component {
 
   }
 
+  turnOffVisualizer = () =>{
+    this.setState({visualizerPage: false});
+    var canvas = document.getElementsByTagName("canvas");
+    canvas[0].parentNode.removeChild(canvas[0]);
+  }
+
   renderVisualizerChoice = () =>{
     return (
         <div>
           <button class="vizButtons" id="dvd" onClick={() => this.setState({visualizerPage: true})}>Visualizers</button>
+          {/* <button class="vizButtons" id="dvd" onClick={() => this.turnOffVisualizer()}>Visualizers</button> */}
         </div>
       );
   }
@@ -450,6 +457,7 @@ class PlayerPage extends Component {
         return (
           <VisualizerPage
             spotifyAPI={this.spotifyAPI}
+            turnOffVisualizer={this.turnOffVisualizer}
           />
         );
       }
@@ -458,6 +466,7 @@ class PlayerPage extends Component {
           <div id="PlayerPage">
             <div id="title_row">
               <img src="./spotifam_logo_outline.png" draggable="false" id="spotifam_title"/>
+              {this.renderVisualizerChoice()}
               <h3 id="room_code_text">Room Code: {this.props.spotifamAPI.getRoomCode()}</h3>
             </div>
 
@@ -471,7 +480,6 @@ class PlayerPage extends Component {
               {this.renderQueue()}
               {/*this.renderAPIHelp()*/}
             </div>
-            {this.renderVisualizerChoice()}
           </div>
         );
       }

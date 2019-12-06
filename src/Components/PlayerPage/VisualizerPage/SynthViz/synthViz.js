@@ -3,6 +3,9 @@ import ReactDOM from "react-dom";
 import "./synthViz.css";
 import * as THREE from "three";
 
+// rotating cube and tree generation/placement based on 
+// https://gamedevelopment.tutsplus.com/tutorials/creating-a-simple-3d-endless-runner-game-using-three-js--cms-29157
+
 export default class SynthViz extends Component {
     constructor(props) {
         super();
@@ -130,14 +133,17 @@ export default class SynthViz extends Component {
             camera.position.y = 3;
             
             //Set up shadow properties for the sun light
-            sun = new THREE.DirectionalLight( 0xcdc1c5, 0.1);
-            sun.castShadow = true;
-            sun.position.set( 0,4,-7 );
-            scene.add(sun);
-            sun.shadow.mapSize.width = 256;
-            sun.shadow.mapSize.height = 256;
-            sun.shadow.camera.near = 0.5;
-            sun.shadow.camera.far = 50 ;
+            // sun = new THREE.DirectionalLight( 0xcdc1c5, 0.1);
+            // sun.castShadow = true;
+            // sun.position.set( 0,4,-7 );
+            // scene.add(sun);
+            // sun.shadow.mapSize.width = 256;
+            // sun.shadow.mapSize.height = 256;
+            // sun.shadow.camera.near = 0.5;
+            // sun.shadow.camera.far = 50 ;
+
+            // var light = new THREE.AmbientLight(0x444444);
+            // scene.add(light);
             
       
             // var helper = new THREE.CameraHelper( sun.shadow.camera );
@@ -155,7 +161,7 @@ export default class SynthViz extends Component {
             // material for wireframe aesthetic
             // material 
             var wireframeMaterial = new THREE.MeshPhongMaterial( {
-                color: 0xff0000,
+                color: 0x6600cc,
                 polygonOffset: true,
                 polygonOffsetFactor: 1, // positive value pushes polygon further away
                 polygonOffsetUnits: 1
@@ -200,7 +206,7 @@ export default class SynthViz extends Component {
 
             // creates wireframe mode
             var geo = new THREE.EdgesGeometry( rollingGroundSphere.geometry ); // or WireframeGeometry
-            var mat = new THREE.LineBasicMaterial( { color: 0xffffff, linewidth: 100 } );
+            var mat = new THREE.LineBasicMaterial( { color: 0xd941d2, linewidth: 100 } );
             var wireframeMode = new THREE.LineSegments( geo, mat );
 
             rollingGroundSphere.add(wireframeMode);
@@ -215,15 +221,62 @@ export default class SynthViz extends Component {
             addWorldTrees();
 
             // create physical background sun
-            var cylinder = new THREE.CylinderGeometry( 5, 5, 20, 32 );
+            var cylinder = new THREE.CylinderGeometry( 16, 16, 1, 24 );
             var material = new THREE.MeshBasicMaterial( {color: 0xffff00} );
             var cylinderSun = new THREE.Mesh( cylinder, material );
             cylinderSun.scale.set(0.3, 0.3, 0.3);
-            cylinderSun.position.y += 2;
-            cylinderSun.position.z -= 5;
+            cylinderSun.position.y += 2.5;
+            cylinderSun.position.z -= 15;
             cylinderSun.rotation.z += Math.PI / 2;
             cylinderSun.rotation.y += Math.PI / 2;
             scene.add( cylinderSun );
+
+
+            // add lines to sun for [s y n t h w a v e] aesthetic
+            var rectMaterial = new THREE.MeshBasicMaterial({color: 0x000000});
+            var rectGeo = new THREE.BoxGeometry(2, 0.1, 0.1);
+            var rect1 = new THREE.Mesh(rectGeo, rectMaterial);
+            rect1.position.y += 4;
+            rect1.position.z -= 14;
+            rect1.scale.set(5, 1.2, 2);
+            scene.add(rect1);
+
+            var rect2 = new THREE.Mesh(rectGeo, rectMaterial);
+            rect2.position.y += 3.4;
+            rect2.position.z -= 14;
+            rect2.scale.set(5, 1.8, 2);
+            scene.add(rect2);
+
+            var rect3 = new THREE.Mesh(rectGeo, rectMaterial);
+            rect3.position.y += 2.7;
+            rect3.position.z -= 14;
+            rect3.scale.set(5, 2.5, 2);
+            scene.add(rect3);
+
+            var rect4 = new THREE.Mesh(rectGeo, rectMaterial);
+            rect4.position.y += 2;
+            rect4.position.z -= 14;
+            rect4.scale.set(5, 3, 2);
+            scene.add(rect4);
+
+            var rect5 = new THREE.Mesh(rectGeo, rectMaterial);
+            rect5.position.y += 1.3;
+            rect5.position.z -= 14;
+            rect5.scale.set(5, 3.3, 2);
+            scene.add(rect5);
+
+            var rect6 = new THREE.Mesh(rectGeo, rectMaterial);
+            rect6.position.y += 0.5;
+            rect6.position.z -= 14;
+            rect6.scale.set(5, 4.2, 2);
+            scene.add(rect6);
+
+            var rect7 = new THREE.Mesh(rectGeo, rectMaterial);
+            rect7.position.y -= 0.2;
+            rect7.position.z -= 14;
+            rect7.scale.set(5, 3, 2);
+            scene.add(rect7);
+            
 
             // gltfLoader = new THREE.GLTFLoader();
             // const url = './mountains.gltf';
@@ -298,7 +351,7 @@ export default class SynthViz extends Component {
             var treeTop = new THREE.Mesh( treeGeometry, treeMaterial );
             // creates wireframe mode
             var treeTopGeo = new THREE.EdgesGeometry( treeTop.geometry ); // or WireframeGeometry
-            var treeTopMat = new THREE.LineBasicMaterial( { color: 0xffffff, linewidth: 2 } );
+            var treeTopMat = new THREE.LineBasicMaterial( { color: 0x04e9ee, linewidth: 2 } );
             var wireframeTreeTopMode = new THREE.LineSegments( treeTopGeo, treeTopMat );
             treeTop.add(wireframeTreeTopMode);
 
@@ -310,7 +363,7 @@ export default class SynthViz extends Component {
             var trunkMaterial = new THREE.MeshStandardMaterial( { color: 0x886633,shading:THREE.FlatShading  } );
             var treeTrunk = new THREE.Mesh( treeTrunkGeometry, trunkMaterial );
             var treeTrunkGeo = new THREE.EdgesGeometry( treeTrunk.geometry ); // or WireframeGeometry
-            var treeTrunkMat = new THREE.LineBasicMaterial( { color: 0xffffff, linewidth: 2 } );
+            var treeTrunkMat = new THREE.LineBasicMaterial( { color: 0x04e9ee, linewidth: 2 } );
             var wireframeTreeTrunkMode = new THREE.LineSegments( treeTrunkGeo, treeTrunkMat );
             treeTrunk.add(wireframeTreeTrunkMode);
 
@@ -492,7 +545,9 @@ export default class SynthViz extends Component {
     // render react component
     render() {
         return (
-            <div ref={ref => (this.mount = ref)} />
+            <div id="canvas-mount" ref={ref => (this.mount = ref)}>
+                <a href="#" id="backButton" onClick={() => this.props.turnOffVisualizer()}>Back to Spotifam Queue</a>
+            </div>
         )
     }
 }
