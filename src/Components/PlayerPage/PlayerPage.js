@@ -448,7 +448,10 @@ class PlayerPage extends Component {
     } else {
       if(this.state.visualizerPage === true){
         return (
-          <VisualizerPage/>
+          <div>
+            <VisualizerPage/>
+            <img id="song_details_album_art" src={this.state.nowPlaying.albumArt} />
+          </div>
         );
       }
       else{

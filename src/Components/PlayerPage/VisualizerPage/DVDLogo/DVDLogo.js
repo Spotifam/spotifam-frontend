@@ -3,6 +3,19 @@ import Sketch from 'react-p5'
  
 export default class DVDLogo extends Component {
  
+
+  constructor(props) {
+    super();
+    this.state = {
+      nowPlaying: {
+        name: '',
+        artist: '',
+        albumArt: '',
+        progress_ms: 0
+      },
+    };
+  }
+
   x;
   y;
 
@@ -119,6 +132,11 @@ export default class DVDLogo extends Component {
 
     p5.fill(this.r,this.g,this.b);
     p5.rect(this.x, this.y, 200, 200);
+
+    var a = document.createElement("img");
+    a.src = this.state.nowPlaying.albumArt;
+    a.height = 100;
+    a.width = 100;
     
 
 
@@ -166,7 +184,9 @@ export default class DVDLogo extends Component {
   render() {
     return (
       <div class="sketch">
+        <button id="dvd" onClick={() => this.props.goBack()}>Back</button>
         <Sketch setup={this.setup} draw={this.draw}/>
+        <img id="song_details_album_art" src={this.state.nowPlaying.albumArt} />
       </div>
     );
   }

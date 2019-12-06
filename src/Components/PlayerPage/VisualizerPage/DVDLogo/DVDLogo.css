@@ -10,3 +10,8 @@ Sketch {
 	border: 20px;
 	border-color: red;
 }
+
+#song_details_album_art {
+  width: 90%;
+  height: auto;
+}
