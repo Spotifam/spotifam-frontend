@@ -171,6 +171,7 @@ class PlayerPage extends Component {
   // reference: https://developer.spotify.com/documentation/web-api/reference/player/start-a-users-playback/
   api_playSong = (songID = null) => {
     let playObject = {};
+    spotifyAPI.setRepeat('off'); // turn off repeat so autoplay works
     if (songID !== null) {
       if (typeof songID === "string") {
         playObject = { "uris": [songID] };
@@ -468,13 +469,14 @@ class PlayerPage extends Component {
           <div id="PlayerPage">
             <div id="title_row">
               <img src="./spotifam_logo_outline.png" draggable="false" id="spotifam_title"/>
-              {this.renderVisualizerChoice()}
+  
               <h3 id="room_code_text">Room Code: {this.props.spotifamAPI.getRoomCode()}</h3>
             </div>
 
             <div id="content_container">
               <div id="container_left">
                 {this.renderSongDetails()}
+                {this.renderVisualizerChoice()}
                 <div id="song_controls_container">
                   {this.renderSongControls()}
                 </div>
