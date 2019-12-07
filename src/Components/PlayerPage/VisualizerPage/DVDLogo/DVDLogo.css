@@ -6,7 +6,7 @@ canvas {
   display: block;
 }
 
-Sketch {
+#sketch {
 	border: 20px;
 	border-color: red;
 }

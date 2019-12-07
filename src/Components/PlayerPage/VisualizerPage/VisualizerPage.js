@@ -22,6 +22,7 @@ class VisualizerPage extends Component {
   constructor(props) {
     super();
     this.state = {
+      currentSong: '',
       viz : 0,
       nowPlaying: {
         name: '',

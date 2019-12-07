@@ -5,14 +5,13 @@ export default class DVDLogo extends Component {
  
 
   constructor(props) {
-    super();
+    super(props);
     this.state = {
       nowPlaying: {
         name: '',
         artist: '',
-        albumArt: '',
-        progress_ms: 0
-      },
+        progress_ms: 0,
+      }
     };
   }
 
@@ -34,17 +33,37 @@ export default class DVDLogo extends Component {
 
   setup = (p5, canvasParentRef) => {
     p5.createCanvas(window.innerWidth, window.innerHeight).parent(canvasParentRef)
-    this.x = 0;
-    this.y = 150;
+    this.x = 300;
+    this.y = 100;
     this.xspeed = 5;
     this.yspeed = 5;
     this.bpm = 75;
     this.r = 100;
     this.g = 100;
     this.b = 100;
-    this.direction = "SE";
+    this.direction = "SW";
     this.distance = "0";
 
+  }
+
+  api_getNowPlaying = () => {
+    this.props.spotifyAPI.getMyCurrentPlaybackState()
+    .then((response) => {
+      let info = {
+        nowPlaying: {
+          name: response.item.name,
+          albumArt: response.item.album.images[0].url,
+          spotifyURI: response.item.uri,
+          deviceID: response.device.id
+        }
+      };
+
+      alert(JSON.stringify(info));
+      console.log(response);
+
+    }).catch(function(err) {
+      console.log(err);
+    });
   }
 
   pickColor = () => {
@@ -125,18 +144,12 @@ export default class DVDLogo extends Component {
     p5.fill(0);
     p5.textSize(42);
     p5.textFont('Georgia');
-    p5.text(this.direction, 12, 30);
-    p5.text(this.distance, 12, 70);
-    p5.text("BPM: " + this.bpm, 12, 110);
+    p5.text("BPM: " + this.bpm, 300, 30);
+    p5.text("Song: " + this.props.nowPlaying.name, 300, 70);
 
 
     p5.fill(this.r,this.g,this.b);
     p5.rect(this.x, this.y, 200, 200);
-
-    var a = document.createElement("img");
-    a.src = this.state.nowPlaying.albumArt;
-    a.height = 100;
-    a.width = 100;
     
 
 
@@ -184,7 +197,7 @@ export default class DVDLogo extends Component {
   render() {
     return (
       <div class="sketch">
-        <button id="dvd" onClick={() => this.props.goBack()}>Back</button>
+        <a href="#" id="backButton" onClick={() => this.props.turnOffVisualizer()}>Back to Spotifam Queue</a>
         <Sketch setup={this.setup} draw={this.draw}/>
         <img id="song_details_album_art" src={this.state.nowPlaying.albumArt} />
       </div>
