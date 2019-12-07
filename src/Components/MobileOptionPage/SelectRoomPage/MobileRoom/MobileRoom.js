@@ -14,6 +14,7 @@
 
 import React, { Component } from 'react';
 import './MobileRoom.css';
+import Alert from '../../../Alert/Alert';
 
 class MobileRoom extends Component {
 
@@ -23,13 +24,15 @@ class MobileRoom extends Component {
     this.state = {
       searchText: "",
       searchResults: [],
-      searchActive: false
+      searchActive: false,
+      showAlert: false
     }
   }
 
   // onINput -------------------------------------------------------------------
 
   onInput_updateSearchText = (e) => {
+    if (this.state.showAlert) this.setState({showAlert: false});
     if (e.target.value !== this.state.searchText) {
       this.setState({searchText: e.target.value});
       this.onClick_performSearch(e.target.value);
@@ -56,8 +59,8 @@ class MobileRoom extends Component {
 
   onClick_addSongToRoom = (song) => {
     this.props.spotifamAPI.addSong(song);
-    this.setState({searchResults: [], searchText: "", searchActive: false});
-    alert("Song added to queue!");
+    this.setState({searchResults: [], searchText: "", searchActive: false, showAlert: true});
+    //alert("Song added to queue!");
   }
 
 
@@ -93,6 +96,9 @@ class MobileRoom extends Component {
     } else {
       return (
         <div id="search_results_container">
+          <Alert
+            visible={this.state.showAlert}
+          />
           {songsToRender}
         </div>
       );
