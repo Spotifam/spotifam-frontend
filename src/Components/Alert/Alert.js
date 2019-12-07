@@ -29,7 +29,7 @@ function Alert(props) {
     return (
       <>
         <div id="Alert" className={classes}>
-          <div id="Icon">✔</div>
+          <div id="Icon">✓</div>
           <div id="Text">Song Added!</div>
         </div>
       </>
