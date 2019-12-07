@@ -171,6 +171,7 @@ class PlayerPage extends Component {
   // reference: https://developer.spotify.com/documentation/web-api/reference/player/start-a-users-playback/
   api_playSong = (songID = null) => {
     let playObject = {};
+    spotifyAPI.setRepeat('off'); // turn off repeat so autoplay works
     if (songID !== null) {
       if (typeof songID === "string") {
         playObject = { "uris": [songID] };
