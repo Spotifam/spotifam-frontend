@@ -400,9 +400,11 @@ class PlayerPage extends Component {
     if (this.state.searching) {
       return (
         <div id="container_right">
-          <MobileRoom
-            spotifamAPI={this.props.spotifamAPI}
-          />
+          <div id="search_container">
+            <MobileRoom
+              spotifamAPI={this.props.spotifamAPI}
+            />
+          </div>
           <button id="ToggleSearch" onClick={ () => this.setState({searching: false})}>
             <div id="ToggleSearchIcon">≡</div>
             <div id="ToggleSearchText">View Queue</div>
