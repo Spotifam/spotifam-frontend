@@ -22,6 +22,9 @@ import { throwStatement } from '@babel/types';
 import VisualizerPage from './VisualizerPage/VisualizerPage.js';
 import SongControls from './SongControls/SongControls';
 import MobileSongDetails from './MobileSongDetails/MobileSongDetails.js';
+import "../MobileOptionPage/SelectRoomPage/MobileRoom/MobileRoom";
+import Alert from '../Alert/Alert';
+import MobileRoom from '../MobileOptionPage/SelectRoomPage/MobileRoom/MobileRoom';
 
 
 // constants -------------------------------------------------------------------
@@ -55,6 +58,7 @@ class PlayerPage extends Component {
       songPlaying: false,
       secondsPassed: 0,
       visualizerPage: false,
+      searching: false
     };
 
     // We want the <Song/> component to be able to edit PlayerPage.songs so
@@ -171,7 +175,7 @@ class PlayerPage extends Component {
   // reference: https://developer.spotify.com/documentation/web-api/reference/player/start-a-users-playback/
   api_playSong = (songID = null) => {
     let playObject = {};
-    spotifyAPI.setRepeat('off'); // turn off repeat so autoplay works
+    this.props.spotifyAPI.setRepeat('off'); // turn off repeat so autoplay works
     if (songID !== null) {
       if (typeof songID === "string") {
         playObject = { "uris": [songID] };
@@ -392,6 +396,33 @@ class PlayerPage extends Component {
 
   }
 
+  renderRightPanel = () => {
+    if (this.state.searching) {
+      return (
+        <div id="container_right">
+          <MobileRoom
+            spotifamAPI={this.props.spotifamAPI}
+          />
+          <button id="ToggleSearch" onClick={ () => this.setState({searching: false})}>
+            <div id="ToggleSearchIcon">≡</div>
+            <div id="ToggleSearchText">View Queue</div>
+          </button>
+        </div>
+        
+      );
+    } else {
+      return(
+        <div id="container_right">
+          {this.renderQueue()}
+          <button id="ToggleSearch" onClick={() => this.setState({searching: true})}>
+            <div id="ToggleSearchIcon">+</div>
+            <div id="ToggleSearchText">Add Songs</div>
+          </button>
+        </div>
+      );
+    }
+  }
+
   turnOffVisualizer = () =>{
     this.setState({visualizerPage: false});
     var canvas = document.getElementsByTagName("canvas");
@@ -479,7 +510,7 @@ class PlayerPage extends Component {
                   {this.renderSongControls()}
                 </div>
               </div>
-              {this.renderQueue()}
+              {this.renderRightPanel()}
               {/*this.renderAPIHelp()*/}
             </div>
           </div>
