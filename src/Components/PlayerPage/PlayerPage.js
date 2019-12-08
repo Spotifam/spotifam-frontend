@@ -403,6 +403,7 @@ class PlayerPage extends Component {
           <div id="search_container">
             <MobileRoom
               spotifamAPI={this.props.spotifamAPI}
+              usePlayerPageStyling={true}
             />
           </div>
           <button id="ToggleSearch" onClick={ () => this.setState({searching: false})}>

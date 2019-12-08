@@ -133,3 +133,7 @@
   border-left: 1px solid #2a2a2e;
   overflow: auto;
 }
+
+#MobileRoom #search_title {
+  font-size: 10px;
+}
