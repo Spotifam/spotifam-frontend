@@ -20,8 +20,10 @@ import SynthViz from './SynthViz/synthViz.js';
 class VisualizerPage extends Component {
 
   constructor(props) {
-    super();
+    super(props);
     this.state = {
+      song:'',
+      art: '',
       currentSong: '',
       viz : 0,
       nowPlaying: {
@@ -50,6 +52,8 @@ class VisualizerPage extends Component {
             <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.9.0/addons/p5.dom.min.js"></script>
             <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.9.0/addons/p5.sound.min.js"></script>
             <DVDLogo 
+              song={this.props.song}
+              art={this.props.art}
               spotifyAPI={this.props.spotifyAPI}
               turnOffVisualizer={this.props.turnOffVisualizer}/>
         </div>

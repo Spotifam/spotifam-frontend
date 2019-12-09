@@ -486,6 +486,8 @@ class PlayerPage extends Component {
       if(this.state.visualizerPage === true){
         return (
           <VisualizerPage
+            song={this.state.nowPlaying.name}
+            art={this.state.nowPlaying.albumArt}
             spotifyAPI={this.spotifyAPI}
             turnOffVisualizer={this.turnOffVisualizer}
           />
