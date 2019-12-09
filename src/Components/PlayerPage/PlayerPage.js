@@ -22,6 +22,8 @@ import MobileSongDetails from './MobileSongDetails/MobileSongDetails.js';
 import "../MobileOptionPage/SelectRoomPage/MobileRoom/MobileRoom";
 import Alert from '../Alert/Alert';
 import MobileRoom from '../MobileOptionPage/SelectRoomPage/MobileRoom/MobileRoom';
+import MobileQueue from "./MobileQueue/MobileQueue.js"
+
 
 
 // constants -------------------------------------------------------------------
@@ -374,6 +376,15 @@ class PlayerPage extends Component {
     );
   }
 
+  renderMobileQueueContainer = () => {
+    return (
+      <MobileQueue
+        songs={this.state.songs}
+        current_song={this.state.current_song}
+      />
+    );
+  }
+
   // renders component that user interacts with to play/pause/skip
   renderSongControls = () => {
     return (
@@ -475,6 +486,9 @@ class PlayerPage extends Component {
             <div id="mobile_currsong_container">
               {this.renderMobileSongDetails()}
             </div>
+            <div id="mobile_queue_container">
+              {this.renderMobileQueueContainer()}
+            </div>
           </div>
           <div id="mobile_controls_container">
             {this.renderSongControls()}
@@ -482,7 +496,7 @@ class PlayerPage extends Component {
         </div>
 
       );
-    } else {
+    } else { //desktop
       if(this.state.visualizerPage === true){
         return (
           <VisualizerPage

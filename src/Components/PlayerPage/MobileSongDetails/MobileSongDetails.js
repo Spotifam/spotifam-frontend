@@ -34,6 +34,7 @@ class MobileSongDetails extends Component {
       return (
         <div id="MobileSongDetails">
           <p id="nowPlaying">Now Playing</p>
+
           <div id="currsong_container">
             <div id="image_container">
               <img src={this.props.nowPlaying.albumArt} id="album_art" />

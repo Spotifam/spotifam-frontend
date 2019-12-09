@@ -78,3 +78,12 @@
   border: none;
   color: black;
 }
+
+::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+  color: #262626;
+  opacity: 1; /* Firefox */
+}
+
+
+
+

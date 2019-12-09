@@ -1,0 +1,29 @@
+
+
+#MobileQueueTable {
+  position: relative;
+  width: 100%;
+  border-collapse: collapse;
+  font-family: 'Montserrat', sans-serif;
+  padding-top: 10px;
+}
+
+#MobileQueueTable th {
+  padding: 10px;
+  
+  background-color: #0c0c0d;
+  color: #7d7d7e;
+
+  text-align: left;
+  font-size: 11px;
+  letter-spacing: 2px;
+
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+  z-index: 80;
+}
+
+#currentSong {
+	color: #1DB954
+}
