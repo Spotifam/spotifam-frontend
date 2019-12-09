@@ -5,7 +5,7 @@
     - <MobileRoom/> is a component that lets a user search for songs and add them to the queue
 
   Props:
-    - none yet
+    - [bool] usePlayerPageStyleing: Changes style of page if its rendered on the player page.
 
   Child Components
     - none yet
@@ -15,6 +15,7 @@
 import React, { Component } from 'react';
 import './MobileRoom.css';
 import Alert from '../../../Alert/Alert';
+import { Color } from 'three';
 
 class MobileRoom extends Component {
 
@@ -25,7 +26,7 @@ class MobileRoom extends Component {
       searchText: "",
       searchResults: [],
       searchActive: false,
-      showAlert: false
+      showAlert: false,
     }
   }
 
@@ -115,6 +116,11 @@ class MobileRoom extends Component {
           value={this.state.searchText}
           onChange={this.onInput_updateSearchText.bind(this)}
           placeholder="Artists, songs, or albums"
+          style={this.props.usePlayerPageStyling?{
+            height: "10px",
+            backgroundColor: "#2a2a2e",
+            color: '#ffffff',
+          }:{}}
         />
       );
     
@@ -124,7 +130,7 @@ class MobileRoom extends Component {
   render() {
     return (
       <div id="MobileRoom">
-        <div id="search_title">Search</div>
+        <div id="search_title">{this.props.usePlayerPageStyling?"":"Search"}</div>
         {this.renderSearchBar()}
         {this.renderSearchResults()}
       </div>
