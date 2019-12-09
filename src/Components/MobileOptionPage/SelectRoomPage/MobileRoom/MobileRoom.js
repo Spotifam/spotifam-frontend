@@ -116,11 +116,7 @@ class MobileRoom extends Component {
           value={this.state.searchText}
           onChange={this.onInput_updateSearchText.bind(this)}
           placeholder="Artists, songs, or albums"
-          style={this.props.usePlayerPageStyling?{
-            height: "10px",
-            backgroundColor: "#2a2a2e",
-            color: '#ffffff',
-          }:{}}
+          className={this.props.usePlayerPageStyling? "playerPage":"mobilePage"}
         />
       );
     
