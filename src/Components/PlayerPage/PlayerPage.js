@@ -23,6 +23,7 @@ import "../MobileOptionPage/SelectRoomPage/MobileRoom/MobileRoom";
 import Alert from '../Alert/Alert';
 import MobileRoom from '../MobileOptionPage/SelectRoomPage/MobileRoom/MobileRoom';
 import MobileQueue from "./MobileQueue/MobileQueue.js"
+import GettingStarted from "./GettingStarted/GettingStarted.js"
 
 
 
@@ -418,6 +419,18 @@ class PlayerPage extends Component {
           </button>
         </div>
         
+      );
+    } else if (this.state.songs.length === 0) {
+      return(
+        <div id="container_right">
+          <GettingStarted 
+            room_code={this.props.spotifamAPI.getRoomCode()}
+          />
+          <button id="ToggleSearch" onClick={() => this.setState({searching: true})}>
+            <div id="ToggleSearchIcon">+</div>
+            <div id="ToggleSearchText">Add Songs</div>
+          </button>
+        </div>
       );
     } else {
       return(
