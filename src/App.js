@@ -65,6 +65,7 @@ class App extends Component {
     if (accessToken) {
       spotifyAPI.setAccessToken(accessToken);
       spotifamAPI.setAuthCode(accessToken);
+      this.createPlayer(accessToken);
     }
 
 
@@ -81,6 +82,7 @@ class App extends Component {
   // when <App/> first loads, determine whether we are in mobile or desktop mode
   componentDidMount() {
     this.updateWindowDimensions();
+
     //window.addEventListener('resize', this.updateWindowDimensions);
   }
 
@@ -111,6 +113,55 @@ class App extends Component {
        e = r.exec(q);
     }
     return hashParams;
+  }
+
+  playerExists (token) {
+    /**
+     * Checks if the a player has been created through the SpotifyPlayerSDK script included in
+     * in public/index.html and initializes it if so.
+     *
+     * @see index.html
+     */
+    console.log("token: ",token)
+    if (window.Spotify !== null) {
+      window.WebPlayer = new window.Spotify.Player({
+        name: 'Spotifam Web Player',
+        getOAuthToken: cb => { cb(token); }
+      });
+
+      // Error handling
+      window.WebPlayer.addListener('initialization_error', ({ message }) => { console.error(message); });
+      window.WebPlayer.addListener('authentication_error', ({ message }) => { console.error(message); });
+      window.WebPlayer.addListener('account_error',        ({ message }) => { console.error(message); });
+      window.WebPlayer.addListener('playback_error',       ({ message }) => { console.error(message); });
+
+      // Playback status updates
+      window.WebPlayer.addListener('player_state_changed', state => { console.log(state); });
+
+      // Ready
+      window.WebPlayer.addListener('ready', ({ device_id }) => {
+        console.log('Ready with Device ID', device_id);
+      });
+
+      // Not Ready
+      window.WebPlayer.addListener('not_ready', ({ device_id }) => {
+        console.log('Device ID has gone offline', device_id);
+      });
+
+      // Connect to the player
+      window.WebPlayer.connect();
+
+      // Delete Interval
+      clearInterval (this.playerExistsInterval);
+    }
+  }
+
+  createPlayer (accessToken) {
+    /**
+     * Checks if the user is logged in and trys to create a SpotifyWebSDK player
+     * until it succeeds.
+     */
+    this.playerExistsInterval = setInterval( () => this.playerExists(accessToken), 3000 );
   }
 
 
@@ -150,6 +201,7 @@ class App extends Component {
 
      } else {
        if (this.state.userLoggedIn) {
+
 
          // desktop user is logged in, so we want to render the webplayer
          return (
