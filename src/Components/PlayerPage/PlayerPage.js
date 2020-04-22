@@ -1,15 +1,27 @@
-/*
-  <PlayerPage/>
-  Description:
-    - <PlayerPage/> is the page the user sees when they are playing music.
-  Props:
-    - spotifyAPI: wrapper for the spotify API (already has user logged in)
-                  follows wrapper definitions from https://github.com/jmperez/spotify-web-api-js
-  Child Components:
-    - Queue
-    - Visualizer (needs to be added)
-    - SongDetails
-*/
+/**
+ * Manages all components within the <PlayerPage/>.
+ * The <PlayerPage/> operates as the host user's way to interact with the
+ * queue and playback. It serves as the main device where music will actually
+ * play from.
+ * 
+ * @file <PlayerPage/>
+ * 
+ * Props:
+ * @param {Object} spotifyAPI wrapper for the Spotify API (already has user 
+ *                            logged in). It follows definitions from
+ *                            https://github.com/jmperez/spotify-web-api-js
+ * 
+ * Child Components:
+ * @see GettingStarted
+ * @see MobileRoom
+ * @see Queue
+ * @see MobileQueue
+ * @see Visualizer
+ * @see SongDetails
+ * @see MobileSongDetails
+ * @see SongControls
+ * @see Alert
+ */
 
 import React, { Component } from 'react';
 import './PlayerPage.css';
@@ -26,14 +38,12 @@ import MobileQueue from "./MobileQueue/MobileQueue.js"
 import GettingStarted from "./GettingStarted/GettingStarted.js"
 
 
-
-// constants -------------------------------------------------------------------
+// =============================================================================
+// Constants
+// =============================================================================
 
 const __refreshLimit = 1; // for how often to refresh spotify info (in seconds)
 
-// TODO: remove this and make it actually represent the queue
-const __songs =  [
-];
 
 // =============================================================================
 // <PlayerPage/>
@@ -47,7 +57,7 @@ class PlayerPage extends Component {
       paused_by_user: true,
       current_device_id: "",
       current_song: 0,
-      songs: __songs,
+      songs: [],
       debugModeActive: true,
       nowPlaying: {
         name: '',
@@ -61,32 +71,62 @@ class PlayerPage extends Component {
       searching: false
     };
 
-    // We want the <Song/> component to be able to edit PlayerPage.songs so
-    // we bind the state of this function to PlayerPage.
+    /* 
+      We want the <Song/> component to be able to edit PlayerPage.songs so we 
+      bind the state of this function to PlayerPage.
+    */
     this.onQueueDrop = this.onQueueDrop.bind(this);
   }
 
-  // Timer ---------------------------------------------------------------------
+  // ===========================================================================
+  // React Component Lifecycle Functions
+  // ===========================================================================
+
+  componentDidMount() {
+    this.createSpotifyAPITimer()
+  }
+
+  componentWillUnmount() {
+    this.deleteSpotifyAPITimer()
+  }
+
+
+  // ===========================================================================
+  // Timer
+  // ===========================================================================
   /*
-    functions that involve a timer, including updating state info about the current playing song
+    functions that involve a timer, including updating state info about the 
+    current playing song.
   */
 
-
-  // when component mounts, set a timer on an infinite loop
-  // -> this timer gets used to make sure we are updating our info from spotify
-  componentDidMount() {
+  createSpotifyAPITimer() {
+    /**
+     * Create a timer that manages recurring calls to the Spotify API.
+     * The timer runs on an infinite loop that tells calls to the Spotify API
+     * when they should fire.
+     */
     this.timerID = setInterval(() => this.tick(), 1000);
   }
 
-  // when leaving the app, make sure we remove dangling pointers
-  componentWillUnmount() {
+  deleteSpotifyAPITimer() {
+    /**
+     * Deletes the timer that refreshes information from the Spotify API.
+     * Deletion is handled when exiting the app to make sure there are no
+     * dangling pointers.
+     */
     clearInterval(this.timerID);
   }
 
-
-  // function gets called every second to update the timer
-  // every time secondsPassed gets to __refreshLimit, we want to grab info from spotify
   tick() {
+    /**
+     * Manages recurring calls to the Spotify API.
+     * Everytime the secondsPassed exceeds the __refreshLimit we need to
+     * grab new information from Spotify. Calls are made every x seconds set by
+     * the __refreshLimit.
+     * 
+     * @see createSpotifyAPITimer
+     * @see __refreshLimit
+     */
     if (this.state.secondsPassed > __refreshLimit) {
       this.api_getSongDetails();
       this.api_setDevice();
@@ -105,22 +145,33 @@ class PlayerPage extends Component {
     }
   }
 
-  // Spotify API Interactions --------------------------------------------------
+
+  // ===========================================================================
+  // Spotify API Interactions
+  // ===========================================================================
   /*
-    functions for interacting with Spotify API
-      - api_getNowPlaying():        returns information about the song that is currently playing
-      - api_playSong():             plays a specified song (or the currently selected one if none selected)
-      - api_pauseSong():            pauses the spotify player
-      - api_goToNextSong():         skips to the next song
-      - api_goToPrevSong():         goes to the previously played song
-      - api_searchForSong():        searches for a track with the right name
-      - api_setDevice():            sets the current device to start playback on.
+    Functions for interacting with Spotify API
+      - api_getNowPlaying():    Returns information about the current song
+      - api_playSong():         Plays the currently selected song
+      - api_pauseSong():        Pauses the currently active spotify player
+      - api_goToNextSong():     Skips to the next song
+      - api_goToPrevSong():     Goes to the previously played song
+      - api_searchForSong():    Searches for a track with a specified name
+      - api_setDevice():        Sets the current device to start playback on
   */
 
 
   // gets data about the song that is playing right now
   // right now, this just creates an alert -> eventually this should set state
   api_getNowPlaying = () => {
+    /**
+     * Gets data about the song that is playing right now.
+     * Used only for testing purposes.
+     * @link https://spoti.fi/2XTHkaR
+     * @deprecated
+     * 
+     * @see api_getSongDetails
+     */
     this.props.spotifyAPI.getMyCurrentPlaybackState()
     .then((response) => {
       let info = {
@@ -141,14 +192,13 @@ class PlayerPage extends Component {
   }
 
   api_getSongDetails = () => {
+    /**
+     * Gets data about the song that is playing right now.
+     * Sets state with the current playback information.
+     * @link https://spoti.fi/2XTHkaR
+     */
     this.props.spotifyAPI.getMyCurrentPlaybackState()
     .then((response) => {
-
-      // TODO: remove this console.log
-      console.log(response.is_playing);
-      console.log('----');
-      console.log(response);
-      console.log('----');
       
       this.setState({
         nowPlaying: {
@@ -160,20 +210,22 @@ class PlayerPage extends Component {
         },
         songPlaying: response.is_playing
       });
-      console.log(response);
     }).catch(function(err) {
       console.log(err);
     });
   }
 
-
-  // plays a song with a given songID
-  // songID can be one of 3 options:
-  //  1) null                     ->  plays whatever song Spotify has selected
-  //  2) a trackID                ->  plays the song with the given ID  ex: "spotify:track:0ZiGRciYMWrDvCPNM0T21o"
-  //  3) a list of trackIDs       ->  plays the first song in the list and adds the rest to top of queue
-  // reference: https://developer.spotify.com/documentation/web-api/reference/player/start-a-users-playback/
   api_playSong = (songID = null) => {
+    /**
+     * Plays a song with a given songID.
+     * songID can be one of 3 options:
+     *    1) null             : Plays whatever song Spotify has selected
+     *    2) trackID          : Plays the song with the given ID
+     *    3) list of trackIDs : Plays first song in the list, add rest to queue
+     * a Spotify ID comes in the format of "spotify:track:0ZiGRciYMWrDvCPNM0T21o".
+     * @link https://spoti.fi/3apvIio
+     */
+
     let playObject = {};
     this.props.spotifyAPI.setRepeat('off'); // turn off repeat so autoplay works
     if (songID !== null) {
@@ -190,7 +242,8 @@ class PlayerPage extends Component {
     }
 
     // Handle resuming from last pause
-    if (playObject.uris[0] === this.state.nowPlaying.uri | this.state.songs.length === 0) {
+    if (playObject.uris[0] === this.state.nowPlaying.uri 
+        | this.state.songs.length === 0) {
       this.props.spotifyAPI.play();
     } else {
       this.props.spotifyAPI.play(playObject);
@@ -199,15 +252,27 @@ class PlayerPage extends Component {
     this.setState({paused_by_user: false});
   }
 
-
-  // pauses playback
   api_pauseSong = () => {
+    /**
+     * Pauses the currently active Spotify player.
+     * We also handle if the user paused with Spotifam. Because of the way the
+     * Spotify API works, to make autoplay work we wait for a song to finish and
+     * skip to the next.
+     * @link https://spoti.fi/2znAIay
+     * 
+     * @see api_handleAutoPlay
+     */
     this.props.spotifyAPI.pause();
     this.setState({paused_by_user: true});
   }
 
-  // skips a song
   api_goToNextSong = () => {
+    /**
+     * Skips to the next song.
+     * If there isn't a song after the current one the first song in the queue
+     * is played.
+     * @link https://spoti.fi/2XVSEDf
+     */
     var curr = this.state.current_song;
     if (this.state.current_song !== this.state.songs.length - 1 ) {
       curr++;
@@ -220,8 +285,13 @@ class PlayerPage extends Component {
     this.props.spotifyAPI.play(current_song_uri);
   }
 
-  // goes back to the last song
   api_goToPrevSong = () => {
+    /**
+     * Skips to the previous song or the start of the current.
+     * If the user is more than 5 seconds into the song we restart it, otherwise
+     * we go to the previous song in the queue.
+     * @link https://spoti.fi/3bwxKhY
+     */
     var curr = this.state.current_song;
     
     if (this.state.current_song !== 0 && this.state.nowPlaying.progress_ms < 5000) {
@@ -234,6 +304,12 @@ class PlayerPage extends Component {
 
   // performs a search for a song
   api_searchForSong = (query) => {
+    /**
+     * Performs a search for a song.
+     * Only used in testing capacity.
+     * @link https://spoti.fi/3eHlfST
+     * @deprecated
+     */
     let resultTypes = ["track"];
     this.props.spotifyAPI.search(query, resultTypes)
     .then((result) => {
@@ -245,10 +321,14 @@ class PlayerPage extends Component {
   }
 
 
+  // ===========================================================================
+  // Spotify API Helpers
+  // ===========================================================================
+
   api_setDevice = () => {
     /**
-     * Sets the device to the Spotify Web Player. Users can choose to switch 
-     * to other players within any Spotify App.
+     * Sets the device to the Spotifam Web Player.
+     * Users can choose to switch to other players within any Spotify App.
      */
     
     if (window.WebPlayer) {
@@ -257,6 +337,10 @@ class PlayerPage extends Component {
   }
 
   api_handleAutoPlay = () => {
+    /**
+     * Handles automatically playing the next song in the queue.
+     * 
+     */
     var self = this;
     this.props.spotifyAPI.getMyCurrentPlaybackState()
     .then((response) => {
@@ -269,9 +353,24 @@ class PlayerPage extends Component {
     });
   }
 
-  // queue ---------------------------------------------------------------------
+
+  // ===========================================================================
+  // Queue Functions
+  // ===========================================================================
 
   onQueueDrop(song, drag_index, drop_index, pos) {
+    /**
+     * Handles the functionality of dragging/dropping songs.
+     * When a user picks up song to rearrange it is removed from the queue and 
+     * then added in their indicated position. To find if the user wants to move 
+     * a song below or above another in the queue we use two dropzones. Above is 
+     * when the song is dropped in the top 50% of a <Song/> component and below 
+     * in the other 50%.
+     * 
+     * @see Queue
+     * @see Song
+     */
+
     // Check if dragged on self
     if (drag_index === drop_index) {
       return;
@@ -299,11 +398,13 @@ class PlayerPage extends Component {
     // Handle current song movement
     if (drag_index === this.state.current_song) { // if the current song is moved
       this.setState({current_song: drop_index + offset});
-    } else if (drag_index === drop_index + offset) { // if a song doesn't change place.
-      // do nothing.
-    } else if (drag_index < this.state.current_song && drop_index >= this.state.current_song) {
+    } else if (drag_index === drop_index + offset) {
+      // If a song doesn't change place do nothing
+    } else if (drag_index < this.state.current_song 
+               && drop_index >= this.state.current_song) {
       this.setState({current_song: this.state.current_song - 1});
-    } else if (drag_index > this.state.current_song && drop_index <= this.state.current_song) {
+    } else if (drag_index > this.state.current_song 
+               && drop_index <= this.state.current_song) {
       this.setState({current_song: this.state.current_song + 1});
     }
 
@@ -314,11 +415,16 @@ class PlayerPage extends Component {
     this.setState({songs: songs});
   }
 
-  // render --------------------------------------------------------------------
 
+  // ===========================================================================
+  // Render
+  // ===========================================================================
 
-  // renders the <Queue/>
   renderQueue = () => {
+    /**
+     * Renders the <Queue/>
+     * @see Queue
+     */
     return (
       <div id="queue_container">
         <Queue
@@ -330,13 +436,12 @@ class PlayerPage extends Component {
     );
   }
 
-
-  // renders component for displaying album art / name
-  //
-  // will need to call the api every x units to have it automatically
-  // change song display on song change
   renderSongDetails = () => {
-    if (this.state.nowPlaying.name != ''){
+    /**
+     * Renders <SongDetails/> component.
+     * Displays the album art and the name of the currently playing song.
+     */
+    if (this.state.nowPlaying.name != '') {
       return (
         <div id="song_details_container" style={{'display': 'flex', 'flexDirection': 'column', 'justifyContent': 'center', 'alignItems': 'center'}}>
           <div>
@@ -357,9 +462,6 @@ class PlayerPage extends Component {
         <div id="song_details_container" style={{'display': 'flex', 'flexDirection': 'column', 'justifyContent': 'center', 'alignItems': 'center'}}>
           <div id="song_details_song">
             No song is currently playing.
-          </div>
-          <div id="song_details_button" style={{'paddingTop': "1em"}}>
-            {/*<button onClick={() => this.api_getSongDetails()}>Get current song info</button>*/}
           </div>
         </div>
       );
@@ -383,10 +485,13 @@ class PlayerPage extends Component {
     );
   }
 
-  // renders component that user interacts with to play/pause/skip
   renderSongControls = () => {
+    /**
+     * Renders the <SongControls/> component.
+     * Controls include anything that lets the user change the playback of
+     * the current song.
+     */
     return (
-      
         <SongControls
           isMobile={this.props.isMobile}
           prev={this.api_goToPrevSong}
@@ -401,6 +506,15 @@ class PlayerPage extends Component {
   }
 
   renderRightPanel = () => {
+    /**
+     * Renders the right panel in the <PlayerPage/>.
+     * The right panel serves multiple functions for the user. Anything that 
+     * should extend functionality of song/queue management should be rendered 
+     * in this panel. Right now, adding a song on a desktop room uses the mobile 
+     * page functionality.
+     * 
+     * @see MobileRoom
+     */
     if (this.state.searching) {
       return (
         <div id="container_right">
@@ -442,17 +556,22 @@ class PlayerPage extends Component {
     }
   }
 
-  turnOffVisualizer = () =>{
+  turnOffVisualizer = () => {
+    /**
+     * Removes the visualizer from the page.
+     */
     this.setState({visualizerPage: false});
     var canvas = document.getElementsByTagName("canvas");
     canvas[0].parentNode.removeChild(canvas[0]);
   }
 
-  renderVisualizerChoice = () =>{
+  renderVisualizerChoice = () => {
+    /**
+     * Shows the options page for multiple types of visualizers.
+     */
     return (
         <div>
           <button class="vizButtons" id="dvd" onClick={() => this.setState({visualizerPage: true})}>Visualizers</button>
-          {/* <button class="vizButtons" id="dvd" onClick={() => this.turnOffVisualizer()}>Visualizers</button> */}
         </div>
       );
   }
@@ -484,9 +603,14 @@ class PlayerPage extends Component {
     }
   }
 
-  // Renders <PlayerPage/>
   render() {
-    if(this.props.isMobile) {
+    /**
+     * Renders <PlayerPage/>.
+     * First decides if the user is on a mobile or desktop device. If the user 
+     * is on the desktop, we route them to either the visualizer page, if it is 
+     * enabled, or the song management page (queue, controls, etc).
+     */
+    if (this.props.isMobile) {
       return(
         <div id="MobilePlayerPage">
           <div id="mobile_room_code_container">
@@ -507,7 +631,7 @@ class PlayerPage extends Component {
 
       );
     } else { //desktop
-      if(this.state.visualizerPage === true){
+      if (this.state.visualizerPage === true) {
         return (
           <VisualizerPage
             song={this.state.nowPlaying.name}
@@ -516,8 +640,7 @@ class PlayerPage extends Component {
             turnOffVisualizer={this.turnOffVisualizer}
           />
         );
-      }
-      else{
+      } else {
         return (
           <div id="PlayerPage">
             <div id="title_row">
@@ -535,7 +658,6 @@ class PlayerPage extends Component {
                 </div>
               </div>
               {this.renderRightPanel()}
-              {/*this.renderAPIHelp()*/}
             </div>
           </div>
         );
