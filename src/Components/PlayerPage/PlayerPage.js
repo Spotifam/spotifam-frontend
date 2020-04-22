@@ -244,19 +244,16 @@ class PlayerPage extends Component {
     });
   }
 
-  // Get Spotify Devices
+
   api_setDevice = () => {
-    /*
-      Finds the most recently opened device and makes it the
-      default playback device.
-    */
+    /**
+     * Sets the device to the Spotify Web Player. Users can choose to switch 
+     * to other players within any Spotify App.
+     */
     
-    var self = this;
-    this.props.spotifyAPI.getMyDevices().then(function (result) {
-      if (result.devices) {
-        self.setState({current_device_id: result.devices[0].id});
-      }
-    });
+    if (window.WebPlayer) {
+      this.setState({current_device_id: window.WebPlayer._options.id});
+    }
   }
 
   api_handleAutoPlay = () => {
