@@ -1,4 +1,5 @@
-import generate from "@babel/generator"
+import generate from "@babel/generator";
+import io from "socket.io-client";
 
 /* SPOTIFAM API HELPER
 
@@ -14,7 +15,7 @@ import generate from "@babel/generator"
 // For production
 //var BASE_URL = "http://spotifam.com"
 
-//const BASE_URL = (window.location.hostname === "localhost") ? "http://127.0.0.1:5000" : "https://api.spotifam.com";
+//const BASE_URL = (window.location.hostname === "localhost") ? "http://127.0.0.1:8000" : "https://api.spotifam.com";
 const BASE_URL = "https://api.spotifam.com";
 
 class SpotifamAPI {
@@ -22,6 +23,7 @@ class SpotifamAPI {
     constructor () {
         this.room_code ="";
         this.auth_tok = "";
+        this.socket = "";
       }
 
     // GETTERS AND SETTERS --------------------------------------------
@@ -63,6 +65,7 @@ class SpotifamAPI {
 
     // Create a room on the backend with users credentials
     async createRoom () {
+        this.socket = io.connect(BASE_URL);
         var create_room_url = BASE_URL + "/createroom?auth_tok=" + this.auth_tok;
         console.log(create_room_url);
         let response = await fetch(create_room_url, {
@@ -72,6 +75,7 @@ class SpotifamAPI {
             .catch(error => console.error(error));
 
         this.room_code = response['room'];
+        this.socket.emit('create room', {room_code: this.room_code});
         return response;
     }
 

@@ -58,7 +58,6 @@ class PlayerPage extends Component {
       current_device_id: "",
       current_song: 0,
       songs: [],
-      debugModeActive: true,
       nowPlaying: {
         name: '',
         artist: '',
@@ -84,10 +83,16 @@ class PlayerPage extends Component {
 
   componentDidMount() {
     this.createSpotifyAPITimer()
+    
+    this.props.spotifamAPI.socket.on('update queue', (data) => {
+      // Updates the queue when a user adds a song from <MobileRoom/>
+      this.setState({songs: data.queue});
+    });
   }
 
   componentWillUnmount() {
     this.deleteSpotifyAPITimer()
+    this.props.spotifamAPI.socket.off('update queue');
   }
 
 
@@ -130,16 +135,8 @@ class PlayerPage extends Component {
     if (this.state.secondsPassed > __refreshLimit) {
       this.api_getSongDetails();
       this.api_setDevice();
-      this.setState({secondsPassed: 0});
       this.api_handleAutoPlay();
-      var self = this;
-      this.props.spotifamAPI.getQueue().then(function (result) {
-        var list = self.state.songs;
-        if (result) {
-          list = result['list'];
-        }
-        self.setState({songs: list});
-      });
+      this.setState({secondsPassed: 0});
     } else {
       this.setState({secondsPassed: this.state.secondsPassed + 1});
     }
@@ -574,33 +571,6 @@ class PlayerPage extends Component {
           <button class="vizButtons" id="dvd" onClick={() => this.setState({visualizerPage: true})}>Visualizers</button>
         </div>
       );
-  }
-
-  // renders buttons that show developers helpful buttons w/ API functionality
-  renderAPIHelp = () => {
-
-    if (this.state.debugModeActive) {
-      return (
-        <div style={{'display': 'flex', 'flex-direction': 'column', 'width': '100%', 'justifyContent': 'center', 'alignItems': 'center'}}>
-          <button onClick={() => this.setState({'debugModeActive': false})}>Hide API help buttons</button>
-          <button onClick={this.api_getNowPlaying}>Get data about what is playing right now</button>
-          <button onClick={() => this.api_playSong(["spotify:track:0rRboI6IRuGx56Dq3UdYY4", "spotify:track:6HUFOiTIGCizkemQxhQTao", "spotify:track:6K4t31amVTZDgR3sKmwUJJ"])}>Play a specific song</button>
-          <button onClick={() => this.api_pauseSong()}>Pause song</button>
-          <button onClick={() => this.api_playSong()}>Resume song</button>
-          <button onClick={() => this.api_goToNextSong()}>Next song</button>
-          <button onClick={() => this.api_goToPrevSong()}>Prev song</button>
-          <button onClick={() => this.api_searchForSong("The less i know the ")}>Example Search: The Less I K</button>
-          <button onClick={() => this.props.spotifamAPI.addSong({title: "The Less I Know the Better", artist: "Tame Impala", album: "Currents", duration: "--", uri: "spotify:track:6K4t31amVTZDgR3sKmwUJJ"})}>Add Song</button>
-          <button onClick={() => this.props.spotifamAPI.addSong({title: "The Less I Know the Better2", artist: "Tame Impala", album: "Currents", duration: "--", uri: "spotify:track:0rRboI6IRuGx56Dq3UdYY4"})}>Add Song</button>
-        </div>
-      );
-    } else {
-      return (
-        <div>
-          <button>Show API help buttons</button>
-        </div>
-      );
-    }
   }
 
   render() {
