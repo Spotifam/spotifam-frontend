@@ -20,6 +20,7 @@
 import React, { Component } from 'react';
 import './SongControls.css';
 import './MobileSongControls.css';
+import ReactNoSleep from 'react-no-sleep';
 
 class SongControls extends Component {
 
@@ -28,6 +29,29 @@ class SongControls extends Component {
   }
 
   // render --------------------------------------------------------------------
+
+  renderPlayButton() {
+    /**
+     * Render the play button.
+     * When clicked it will fire the play function in the PlayerPage and keep
+     * the display awake so that the application can run for large amounts of
+     * time.
+     * @see PlayerPage
+     */
+    return(
+      <ReactNoSleep>
+        {({ enable }) => (
+          <button id="play" 
+            onClick={() => {
+              this.props.play(this.props.current_song_uri);
+              enable();
+            }}>
+            <img src="play.png"/>
+          </button>
+        )}
+      </ReactNoSleep>
+    )
+  }
 
   // Renders <SongControls/>
   render() {
@@ -64,7 +88,7 @@ class SongControls extends Component {
         return (
             <div id="buttons">
                 <button id="prev" onClick={() => this.props.prev()}><img src="back.png"/></button>
-                <button id="play" onClick={() => this.props.play(this.props.current_song_uri)}><img src="play.png"/></button>
+                { this.renderPlayButton() }
                 <button id="next" onClick={() => this.props.next()}><img src="back.png"/></button>
             </div>
         );
