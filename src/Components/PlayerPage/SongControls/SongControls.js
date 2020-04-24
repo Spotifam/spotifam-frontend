@@ -32,7 +32,7 @@ class SongControls extends Component {
     super();
   }
 
-  
+
   // ===========================================================================
   // Render
   // ===========================================================================
@@ -81,9 +81,16 @@ class SongControls extends Component {
     let buttonClass = this.props.isMobile ? "mobileButtons" : "buttons";
     return (
         <div id={buttonClass}>
-            <button id="prev" onClick={() => this.props.prev()}><img src="back.png"/></button>
+
+            <button id="prev" onClick={() => this.props.prev()}>
+              <img src="back.png"/>
+            </button>
+
             { this.renderPlayPauseButton() }
-            <button id="next" onClick={() => this.props.next()}><img src="back.png"/></button>
+
+            <button id="next" onClick={() => this.props.next()}>
+              <img src="back.png"/> {/* Button is rotated in CSS */}
+            </button>
         </div>
     );
   }
