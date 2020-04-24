@@ -1,26 +1,30 @@
-/*
-  <SongControls/>
-
-  Description:
-    - <SongControls/> is an interface for users to interact with the queue.
-
-  Props:
-    - prev()
-    - next()
-    - pause()
-    - play()
-    - song_is_playing
-    - current_song_uri
-
-  Child Components
-    - none yet
-*/
-
+/**
+ * Manages the functionality of the <SongControls/> component.
+ * Provides and interface for users to control the current playback and keeps
+ * the device awake after music starts playing.
+ * @see renderPlayButton()
+ * 
+ * Props:
+ * @param {function} prev
+ * @param {function} next
+ * @param {function} pause
+ * @param {function} play
+ * @param {boolean} song_is_playing
+ * @param {string} current_song_uri
+ * 
+ * Child Components:
+ * N/A
+ */
 
 import React, { Component } from 'react';
 import './SongControls.css';
 import './MobileSongControls.css';
 import ReactNoSleep from 'react-no-sleep';
+
+
+// =============================================================================
+// <SongControls/>
+// =============================================================================
 
 class SongControls extends Component {
 
@@ -28,72 +32,60 @@ class SongControls extends Component {
     super();
   }
 
-  // render --------------------------------------------------------------------
+  
+  // ===========================================================================
+  // Render
+  // ===========================================================================
 
-  renderPlayButton() {
+  renderPlayPauseButton() {
     /**
-     * Render the play button.
-     * When clicked it will fire the play function in the PlayerPage and keep
-     * the display awake so that the application can run for large amounts of
-     * time.
+     * Render the play or pause button.
+     * When clicked it will fire the play/pause function in the PlayerPage and 
+     * keep the display awake if music is playing and allow it to sleep if not.
      * @see PlayerPage
      */
+    
+    // Change functionality/display based on whether song is playing or not
+    let func, id, img;
+    if (this.props.song_is_playing) {
+      func = () => this.props.pause();
+      id = 'pause';
+      img = 'pause.png';
+    } else {
+      func = () => this.props.play(this.props.current_song_uri);
+      id = 'play';
+      img = 'play.png';
+    }
+    
     return(
       <ReactNoSleep>
-        {({ enable }) => (
-          <button id="play" 
+        {({ isOn, enable, disable }) => (
+          <button id={id} 
             onClick={() => {
-              this.props.play(this.props.current_song_uri);
-              enable();
+              func();
+              isOn ? disable() : enable();
             }}>
-            <img src="play.png"/>
+            <img src={img}/>
           </button>
         )}
       </ReactNoSleep>
     )
   }
 
-  // Renders <SongControls/>
   render() {
-    if(this.props.isMobile) {
-      if(this.props.song_is_playing) {
-        return (
-            <div id="mobileButtons">
-                <button id="prev"  onClick={() => this.props.prev()}><img src="back.png"/></button>
-                <button id="pause" onClick={() => this.props.pause()}><img src="pause.png"/></button>
-                <button id="next"  onClick={() => this.props.next()}><img src="back.png"/></button>
-            </div>
-         );
-      }
-      else{
-        return (
-            <div id="mobileButtons">
-                <button id="prev" onClick={() => this.props.prev()}><img src="back.png"/></button>
-                <button id="play" onClick={() => this.props.play(this.props.current_song_uri)}><img src="play.png"/></button>
-                <button id="next" onClick={() => this.props.next()}><img src="back.png"/></button>
-            </div>
-        );
-      }
-    } else {
-      if(this.props.song_is_playing) {
-        return (
-            <div id="buttons">
-                <button id="prev"  onClick={() => this.props.prev()}><img src="back.png"/></button>
-                <button id="pause" onClick={() => this.props.pause()}><img src="pause.png"/></button>
-                <button id="next"  onClick={() => this.props.next()}><img src="back.png"/></button>
-            </div>
-         );
-      }
-      else{
-        return (
-            <div id="buttons">
-                <button id="prev" onClick={() => this.props.prev()}><img src="back.png"/></button>
-                { this.renderPlayButton() }
-                <button id="next" onClick={() => this.props.next()}><img src="back.png"/></button>
-            </div>
-        );
-      }
-    }
+    /**
+     * Render <SongControls/>.
+     * Renders controls that allow the user to change the playback state.
+     */
+
+    let buttonClass = this.props.isMobile ? "mobileButtons" : "buttons";
+    return (
+        <div id={buttonClass}>
+            <button id="prev" onClick={() => this.props.prev()}><img src="back.png"/></button>
+            { this.renderPlayPauseButton() }
+            <button id="next" onClick={() => this.props.next()}><img src="back.png"/></button>
+        </div>
+    );
   }
 }
 
