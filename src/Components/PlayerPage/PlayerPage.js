@@ -433,6 +433,16 @@ class PlayerPage extends Component {
     );
   }
 
+  renderGettingStarted = () => {
+    return (
+      <div id="queue_container">
+        <GettingStarted 
+          room_code={this.props.spotifamAPI.getRoomCode()}
+        />
+      </div>
+    );
+  }
+
   renderSongDetails = () => {
     /**
      * Renders <SongDetails/> component.
@@ -531,9 +541,7 @@ class PlayerPage extends Component {
     } else if (this.state.songs.length === 0) {
       return(
         <div id="container_right">
-          <GettingStarted 
-            room_code={this.props.spotifamAPI.getRoomCode()}
-          />
+          {this.renderGettingStarted()}
           <button id="ToggleSearch" onClick={() => this.setState({searching: true})}>
             <div id="ToggleSearchIcon">+</div>
             <div id="ToggleSearchText">Add Songs</div>
@@ -621,8 +629,10 @@ class PlayerPage extends Component {
 
             <div id="content_container">
               <div id="container_left">
-                {this.renderSongDetails()}
-                {this.renderVisualizerChoice()}
+                <div id="vis_and_details_container">
+                  {this.renderSongDetails()}
+                  {this.renderVisualizerChoice()}
+                </div>
                 <div id="song_controls_container">
                   {this.renderSongControls()}
                 </div>

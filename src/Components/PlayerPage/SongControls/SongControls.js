@@ -18,7 +18,7 @@
 
 import React, { Component } from 'react';
 import './SongControls.css';
-import './MobileSongControls.css';
+// import './MobileSongControls.css';
 import ReactNoSleep from 'react-no-sleep';
 
 
